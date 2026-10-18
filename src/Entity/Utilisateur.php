@@ -6,11 +6,14 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email.')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,6 +22,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre adresse email.')]
+    #[Assert\Email(message: "L'adresse email {{ value }} n'est pas valide.")]
     private ?string $email = null;
 
     /**
@@ -34,9 +39,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre prénom.')]
+    #[Assert\Length(max: 100, maxMessage: 'Le prénom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre nom.')]
+    #[Assert\Length(max: 100, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column]
@@ -61,6 +70,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->adresses = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->dateCreation = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
