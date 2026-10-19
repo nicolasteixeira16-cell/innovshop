@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ produit.nom }} - InnovShop{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_produit_index') }}">Catalogue</a></li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('app_produit_index', {categorie: produit.categorie.slug}) }}">{{ produit.categorie.nom }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ produit.nom }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            {% if produit.image %}
+                <img src="{{ asset('uploads/produits/' ~ produit.image) }}"
+                     class="img-fluid rounded shadow-sm w-100" alt="{{ produit.nom }}">
+            {% else %}
+                <div class="bg-secondary-subtle text-secondary d-flex align-items-center justify-content-center rounded"
+                     style="height: 320px;">Pas d'image</div>
+            {% endif %}
+        </div>
+
+        <div class="col-12 col-md-6">
+            <h1>{{ produit.nom }}</h1>
+            <span class="badge text-bg-secondary mb-3">{{ produit.categorie.nom }}</span>
+            <p class="fs-3 fw-bold">{{ produit.prix|number_format(2, ',', ' ') }} €</p>
+
+            {# Description saisie par les administrateurs (éditeur riche) #}
+            <div class="mb-4">{{ produit.description|raw }}</div>
+
+            {% if produit.optionProduits|length > 0 %}
+                <h2 class="h5">Caractéristiques</h2>
+                <ul class="list-group mb-4">
+                    {% for option in produit.optionProduits %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">{{ option.type }}</span>
+                            <span>{{ option.valeur }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <button class="btn btn-dark btn-lg" disabled>Ajouter au panier (bientôt)</button>
+            <a href="{{ path('app_produit_index') }}" class="btn btn-outline-secondary btn-lg">Retour au catalogue</a>
+        </div>
+    </div>
+{% endblock %}

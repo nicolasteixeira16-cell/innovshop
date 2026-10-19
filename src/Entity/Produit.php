@@ -19,7 +19,7 @@ class Produit
 
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank(message: 'Le nom est obligatoire.')]
-    #[Assert\Length(min: 2, max: 255)]
+    #[Assert\Length(min: 2, max: 150)]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue - InnovShop{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Catalogue</h1>
+
+    <form method="get" action="{{ path('app_produit_index') }}" class="row g-2 mb-4">
+        <div class="col-12 col-md-5">
+            <input type="search" name="q" value="{{ q }}" class="form-control" placeholder="Rechercher un produit…">
+        </div>
+        <div class="col-6 col-md-3">
+            <select name="categorie" class="form-select">
+                <option value="">Toutes les catégories</option>
+                {% for categorie in categories %}
+                    <option value="{{ categorie.slug }}" {{ categorie.slug == categorieActive ? 'selected' }}>{{ categorie.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-6 col-md-3">
+            <select name="tri" class="form-select">
+                <option value="recent" {{ tri == 'recent' ? 'selected' }}>Plus récents</option>
+                <option value="prix_asc" {{ tri == 'prix_asc' ? 'selected' }}>Prix croissant</option>
+                <option value="prix_desc" {{ tri == 'prix_desc' ? 'selected' }}>Prix décroissant</option>
+                <option value="nom" {{ tri == 'nom' ? 'selected' }}>Nom (A-Z)</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-1 d-grid">
+            <button type="submit" class="btn btn-dark">OK</button>
+        </div>
+    </form>
+
+    <p class="text-muted">{{ produits|length }} produit{{ produits|length > 1 ? 's' }} trouvé{{ produits|length > 1 ? 's' }}</p>
+
+    {% if produits is empty %}
+        <div class="alert alert-info">
+            Aucun produit ne correspond à votre recherche.
+            <a href="{{ path('app_produit_index') }}">Réinitialiser</a>
+        </div>
+    {% else %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            {% for produit in produits %}
+                {% include 'produit/_card.html.twig' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

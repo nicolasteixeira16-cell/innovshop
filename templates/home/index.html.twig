@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}InnovShop - Accueil{% endblock %}
+
+{% block body %}
+    <div class="p-5 mb-5 bg-dark text-white rounded-3">
+        <h1 class="display-5 fw-bold">Bienvenue chez InnovShop</h1>
+        <p class="fs-5">Découvrez nos produits innovants, sélectionnés pour vous.</p>
+        <a href="{{ path('app_produit_index') }}" class="btn btn-light btn-lg">Voir le catalogue</a>
+    </div>
+
+    <section class="mb-5">
+        <h2 class="mb-3">À la une</h2>
+        {% if produitsEnVedette is empty %}
+            <p class="text-muted">Aucun produit à la une pour le moment.</p>
+        {% else %}
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                {% for produit in produitsEnVedette %}
+                    {% include 'produit/_card.html.twig' %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2 class="mb-3">Nouveautés</h2>
+        {% if nouveautes is empty %}
+            <p class="text-muted">Aucun produit pour le moment.</p>
+        {% else %}
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                {% for produit in nouveautes %}
+                    {% include 'produit/_card.html.twig' %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
