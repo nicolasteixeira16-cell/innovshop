@@ -9,8 +9,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
-class Commande
-{
+class Commande {
+
+public const STATUT_EN_ATTENTE = 'en_attente';
+public const STATUT_EXPEDIEE = 'expediee';
+public const STATUT_ANNULEE = 'annulee';
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -38,6 +43,8 @@ class Commande
     public function __construct()
     {
         $this->ligneCommandes = new ArrayCollection();
+        $this->statut = self::STATUT_EN_ATTENTE;
+        $this->dateCreation = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
