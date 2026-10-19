@@ -91,9 +91,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function __toString(): string
-{
-    return $this->email ?? '';
-}
+    {
+        return $this->email ?? '';
+    }
 
     /**
      * A visual identifier that represents this user.
@@ -114,15 +114,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+    return array_values(array_unique($roles));
     }
 
-    /**
-     * @param list<string> $roles
-     */
+/**
+ * @param list<string> $roles
+ */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        $this->roles = array_values($roles);
 
         return $this;
     }
