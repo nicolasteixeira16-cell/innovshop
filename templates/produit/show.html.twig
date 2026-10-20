@@ -44,7 +44,10 @@
                 </ul>
             {% endif %}
 
-            <button class="btn btn-dark btn-lg" disabled>Ajouter au panier (bientôt)</button>
+                <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_add', {id: produit.id}) }}" class="d-inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                    <button class="btn btn-dark btn-lg">Ajouter au panier</button>
+                </form>
             <a href="{{ path('app_produit_index') }}" class="btn btn-outline-secondary btn-lg">Retour au catalogue</a>
         </div>
     </div>

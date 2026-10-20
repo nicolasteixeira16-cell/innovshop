@@ -14,7 +14,10 @@ class Commande {
 public const STATUT_EN_ATTENTE = 'en_attente';
 public const STATUT_EXPEDIEE = 'expediee';
 public const STATUT_ANNULEE = 'annulee';
+public const STATUT_VALIDEE = 'validee';
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $adresseLivraison = null;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -129,4 +132,17 @@ public const STATUT_ANNULEE = 'annulee';
 
         return $this;
     }
+
+    public function getAdresseLivraison(): ?string
+{
+    return $this->adresseLivraison;
+}
+
+public function setAdresseLivraison(?string $adresseLivraison): static
+{
+    $this->adresseLivraison = $adresseLivraison;
+
+    return $this;
+}
+
 }

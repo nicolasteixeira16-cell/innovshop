@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 class CommandeCrudController extends AbstractCrudController
 {
@@ -50,14 +51,17 @@ class CommandeCrudController extends AbstractCrudController
             ChoiceField::new('statut', 'Statut')
                 ->setChoices([
                     'En attente' => Commande::STATUT_EN_ATTENTE,
+                    'Validée' => Commande::STATUT_VALIDEE,
                     'Expédiée' => Commande::STATUT_EXPEDIEE,
                     'Annulée' => Commande::STATUT_ANNULEE,
                 ])
                 ->renderAsBadges([
                     Commande::STATUT_EN_ATTENTE => 'warning',
+                    Commande::STATUT_VALIDEE => 'info',
                     Commande::STATUT_EXPEDIEE => 'success',
                     Commande::STATUT_ANNULEE => 'danger',
                 ]),
+                TextareaField::new('adresseLivraison', 'Adresse de livraison')->onlyOnDetail(),
         ];
     }
 }

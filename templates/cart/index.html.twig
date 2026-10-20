@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier - InnovShop{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Mon panier</h1>
+        <div id="cart-content" data-url="{{ path('app_cart') }}">
+            {% if items is empty %}
+                <div class="alert alert-info">
+                    Votre panier est vide.
+                    <a href="{{ path('app_produit_index') }}">Voir le catalogue</a>
+                </div>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table align-middle bg-white">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th class="text-end">Prix</th>
+                                <th class="text-center">Quantité</th>
+                                <th class="text-end">Sous-total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('app_produit_show', {id: item.produit.id}) }}"
+                                        class="text-decoration-none">{{ item.produit.nom }}</a>
+                                    </td>
+                                    <td class="text-end">{{ item.produit.prix|number_format(2, ',', ' ') }} €</td>
+                                    <td class="text-center">
+                                        <div class="d-inline-flex align-items-center gap-2">
+                                            <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_decrease', {id: item.produit.id}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                                                <button class="btn btn-sm btn-outline-secondary" aria-label="Diminuer">−</button>
+                                            </form>
+                                            <span>{{ item.quantite }}</span>
+                                            <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_add', {id: item.produit.id}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                                                <button class="btn btn-sm btn-outline-secondary" aria-label="Augmenter">+</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">{{ item.sousTotal|number_format(2, ',', ' ') }} €</td>
+                                    <td class="text-end">
+                                        <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_remove', {id: item.produit.id}) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                                            <button class="btn btn-sm btn-outline-danger">Retirer</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" class="text-end">Total</th>
+                                <th class="text-end">{{ total|number_format(2, ',', ' ') }} €</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_clear') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                        <button class="btn btn-outline-secondary">Vider le panier</button>
+                    </form>
+                    <button class="btn btn-dark" disabled>Passer la commande (étape suivante)</button>
+                </div>
+            {% endif %}
+        </div>
+{% endblock %}

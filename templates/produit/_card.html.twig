@@ -15,9 +15,15 @@
                 {% set texte = produit.description|striptags %}
                 {{ texte|length > 90 ? texte|slice(0, 90) ~ '…' : texte }}
             </p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-                <strong>{{ produit.prix|number_format(2, ',', ' ') }} €</strong>
-                <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-dark">Voir le produit</a>
+            <div class="mt-auto">
+                <strong class="d-block mb-2">{{ produit.prix|number_format(2, ',', ' ') }} €</strong>
+                <div class="d-flex gap-2">
+                    <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-outline-dark flex-fill">Voir</a>
+                    <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_add', {id: produit.id}) }}" class="flex-fill d-grid">
+                        <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                        <button class="btn btn-sm btn-dark">Ajouter</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
