@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande - Confirmation - InnovShop{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Passer la commande</h1>
+    {% include 'checkout/_steps.html.twig' with {etape: 3} %}
+
+    <h2 class="h5 mb-3">Votre commande</h2>
+    {% include 'checkout/_resume.html.twig' %}
+
+    <h2 class="h5 mb-3">Livraison</h2>
+    <address class="bg-white border rounded p-3 mb-4">
+        {{ app.user.prenom }} {{ app.user.nom }}<br>
+        {{ livraison.rue }}<br>
+        {{ livraison.codePostal }} {{ livraison.ville }}<br>
+        {{ livraison.pays }}
+    </address>
+
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('app_checkout_livraison') }}" class="btn btn-outline-secondary">Modifier l'adresse</a>
+        <form method="post" action="{{ path('app_checkout_valider') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('checkout') }}">
+            <button type="submit" class="btn btn-success btn-lg">Confirmer la commande</button>
+        </form>
+    </div>
+{% endblock %}

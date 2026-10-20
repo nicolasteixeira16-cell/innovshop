@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande - Récapitulatif - InnovShop{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Passer la commande</h1>
+    {% include 'checkout/_steps.html.twig' with {etape: 1} %}
+
+    <h2 class="h5 mb-3">Vérifiez votre panier</h2>
+    {% include 'checkout/_resume.html.twig' %}
+
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('app_cart') }}" class="btn btn-outline-secondary">Modifier le panier</a>
+        <a href="{{ path('app_checkout_livraison') }}" class="btn btn-dark">Continuer vers la livraison</a>
+    </div>
+{% endblock %}

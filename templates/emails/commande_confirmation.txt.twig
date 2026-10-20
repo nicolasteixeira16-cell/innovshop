@@ -1,0 +1,15 @@
+Bonjour {{ commande.utilisateur.prenom }},
+
+Merci pour votre commande n° {{ commande.id }} passée le {{ commande.dateCreation|date('d/m/Y à H:i') }}.
+Elle est actuellement en attente de validation.
+
+{% for ligne in commande.ligneCommandes %}
+- {{ ligne.nomProduit }} x {{ ligne.quantite }} : {{ ligne.sousTotal|number_format(2, ',', ' ') }} €
+{% endfor %}
+
+Total : {{ commande.total|number_format(2, ',', ' ') }} €
+
+Adresse de livraison :
+{{ commande.adresseLivraison }}
+
+L'équipe InnovShop

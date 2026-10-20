@@ -1,0 +1,9 @@
+{% set libelles = {1: 'Panier', 2: 'Livraison', 3: 'Confirmation'} %}
+<ol class="list-unstyled d-flex gap-2 mb-4">
+    {% for numero, libelle in libelles %}
+        <li class="flex-fill text-center p-2 rounded
+            {{ numero == etape ? 'bg-dark text-white' : (numero < etape ? 'bg-success-subtle' : 'bg-white border') }}">
+            <strong>{{ numero }}.</strong> {{ libelle }}
+        </li>
+    {% endfor %}
+</ol>
