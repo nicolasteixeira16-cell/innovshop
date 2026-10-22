@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+{% block title %}{{ titre }} - InnovShop{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_account') }}">Mon compte</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ titre }}</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">{{ titre }}</h1>
+
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="d-flex justify-content-between mt-3">
+                    <a href="{{ path('app_account') }}" class="btn btn-outline-secondary">Annuler</a>
+                    <button type="submit" class="btn btn-dark">Enregistrer</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

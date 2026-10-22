@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - InnovShop{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Bonjour {{ app.user.prenom }}</h1>
+
+    <div class="row g-4">
+        <div class="col-12 col-md-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Mes informations</h2>
+                    <dl>
+                        <dt>Nom</dt>
+                        <dd>{{ app.user.prenom }} {{ app.user.nom }}</dd>
+                        <dt>Email</dt>
+                        <dd>{{ app.user.email }}</dd>
+                        <dt>Téléphone</dt>
+                        <dd>{{ app.user.telephone ?: 'Non renseigné' }}</dd>
+                        <dt>Adresse de livraison</dt>
+                        <dd>
+                            {% if adresse %}
+                                {{ adresse.rue }}<br>{{ adresse.codePostal }} {{ adresse.ville }}<br>{{ adresse.pays }}
+                            {% else %}
+                                Aucune adresse enregistrée
+                            {% endif %}
+                        </dd>
+                        <dt>Membre depuis le</dt>
+                        <dd>{{ app.user.dateCreation|date('d/m/Y') }}</dd>
+                    </dl>
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_account_profile') }}" class="btn btn-outline-dark">Modifier mes informations</a>
+                        <a href="{{ path('app_account_address') }}" class="btn btn-outline-dark">Modifier mon adresse</a>
+                        <a href="{{ path('app_account_password') }}" class="btn btn-outline-dark">Changer mon mot de passe</a>
+                </div>
+        </div>
+    </div>
+</div>
+
+        <div class="col-12 col-md-7">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">
+                        Mes commandes <span class="badge text-bg-secondary">{{ nbCommandes }}</span>
+                    </h2>
+
+                    {% if dernieresCommandes is empty %}
+                        <p class="text-muted">Vous n'avez pas encore passé de commande.</p>
+                        <a href="{{ path('app_produit_index') }}" class="btn btn-dark">Découvrir le catalogue</a>
+                    {% else %}
+                        <ul class="list-group list-group-flush mb-3">
+                            {% for commande in dernieresCommandes %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="{{ path('app_account_order_show', {id: commande.id}) }}" class="text-decoration-none">
+                                        Commande n° {{ commande.id }} du {{ commande.dateCreation|date('d/m/Y') }}
+                                    </a>
+                                    {% include 'account/_statut.html.twig' %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{{ path('app_account_orders') }}" class="btn btn-outline-dark">Voir toutes mes commandes</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

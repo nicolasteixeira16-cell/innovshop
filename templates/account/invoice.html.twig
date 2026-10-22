@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'DejaVu Sans', sans-serif; font-size: 11px; color: #212529; }
+        h1 { font-size: 22px; margin: 0 0 4px; }
+        table { width: 100%; border-collapse: collapse; }
+        .bloc { margin-bottom: 22px; }
+        .muted { color: #6c757d; }
+        .right { text-align: right; }
+        .center { text-align: center; }
+        .lignes th { background: #f1f3f5; text-align: left; padding: 6px; border-bottom: 1px solid #adb5bd; }
+        .lignes td { padding: 6px; border-bottom: 1px solid #dee2e6; }
+        .total td { font-weight: bold; font-size: 13px; padding-top: 10px; }
+    </style>
+</head>
+<body>
+    <table class="bloc">
+        <tr>
+            <td>
+                <h1>InnovShop</h1>
+                <div class="muted">Boutique en ligne</div>
+            </td>
+            <td class="right">
+                <strong>FACTURE {{ numero }}</strong><br>
+                Date : {{ commande.dateCreation|date('d/m/Y') }}<br>
+                Commande n° {{ commande.id }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="bloc">
+        <tr>
+            <td width="50%">
+                <strong>Client</strong><br>
+                {{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}<br>
+                {{ commande.utilisateur.email }}
+            </td>
+            <td width="50%">
+                <strong>Adresse de livraison</strong><br>
+                {{ commande.adresseLivraison|nl2br }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="lignes bloc">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th class="right">Prix unitaire</th>
+                <th class="center">Qté</th>
+                <th class="right">Sous-total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in commande.ligneCommandes %}
+                <tr>
+                    <td>{{ ligne.nomProduit }}</td>
+                    <td class="right">{{ ligne.prixUnitaire|number_format(2, ',', ' ') }} €</td>
+                    <td class="center">{{ ligne.quantite }}</td>
+                    <td class="right">{{ ligne.sousTotal|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="total">
+                <td colspan="3" class="right">Total</td>
+                <td class="right">{{ commande.total|number_format(2, ',', ' ') }} €</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p class="muted">Montants en euros. Statut de la commande : {{ commande.statutLibelle }}.</p>
+</body>
+</html>

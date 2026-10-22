@@ -1,0 +1,2 @@
+{% set styles = {en_attente: 'warning', validee: 'info', expediee: 'success', annulee: 'danger'} %}
+<span class="badge text-bg-{{ styles[commande.statut] ?? 'secondary' }}">{{ commande.statutLibelle }}</span>

@@ -51,6 +51,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $dateCreation = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Length(max: 20, maxMessage: 'Le numéro ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Regex(pattern: '/^\+?[0-9][0-9 .\-]{5,18}$/', message: 'Numéro de téléphone invalide.')]
+    private ?string $telephone = null;
+
     /**
      * @var Collection<int, Adresse>
      */
@@ -191,6 +196,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateCreation(\DateTimeImmutable $dateCreation): static
     {
         $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): static
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }

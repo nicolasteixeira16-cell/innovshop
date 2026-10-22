@@ -16,6 +16,13 @@ public const STATUT_EXPEDIEE = 'expediee';
 public const STATUT_ANNULEE = 'annulee';
 public const STATUT_VALIDEE = 'validee';
 
+public const STATUTS = [
+        self::STATUT_EN_ATTENTE => 'En attente',
+        self::STATUT_VALIDEE => 'Validée',
+        self::STATUT_EXPEDIEE => 'Expédiée',
+        self::STATUT_ANNULEE => 'Annulée',
+    ];
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $adresseLivraison = null;
 
@@ -66,6 +73,11 @@ public const STATUT_VALIDEE = 'validee';
 
         return $this;
     }
+
+    public function getStatutLibelle(): string
+{
+    return self::STATUTS[$this->statut] ?? (string) $this->statut;
+}
 
     public function getTotal(): ?string
     {

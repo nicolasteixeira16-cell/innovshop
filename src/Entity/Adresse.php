@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AdresseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AdresseRepository::class)]
 class Adresse
@@ -13,16 +14,24 @@ class Adresse
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+        #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre adresse.')]
+    #[Assert\Length(max: 255)]
     private ?string $rue = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre ville.')]
+    #[Assert\Length(max: 100)]
     private ?string $ville = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre code postal.')]
+    #[Assert\Regex(pattern: '/^[0-9A-Za-z \-]{3,10}$/', message: 'Code postal invalide.')]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Veuillez saisir votre pays.')]
+    #[Assert\Length(max: 100)]
     private ?string $pays = null;
 
     #[ORM\Column]

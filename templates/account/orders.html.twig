@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes - InnovShop{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_account') }}">Mon compte</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mes commandes</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">Mes commandes</h1>
+
+    {% if commandes is empty %}
+        <div class="alert alert-info">
+            Vous n'avez pas encore passé de commande.
+            <a href="{{ path('app_produit_index') }}">Voir le catalogue</a>
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table align-middle bg-white">
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Date</th>
+                        <th class="text-end">Total</th>
+                        <th>Statut</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr>
+                            <td>{{ commande.id }}</td>
+                            <td>{{ commande.dateCreation|date('d/m/Y H:i') }}</td>
+                            <td class="text-end">{{ commande.total|number_format(2, ',', ' ') }} €</td>
+                            <td>{% include 'account/_statut.html.twig' %}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_account_order_show', {id: commande.id}) }}"
+                                   class="btn btn-sm btn-outline-dark">Détails</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

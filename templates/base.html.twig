@@ -35,7 +35,7 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administration</a></li>
                             {% endif %}
-                            <li class="nav-item"><span class="nav-link text-white-50">{{ app.user.prenom }}</span></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_account') }}">Mon compte</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Connexion</a></li>
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </nav>
-        
+
         <div id="notifications" class="position-fixed top-0 end-0 p-3" style="z-index: 1080;"></div>
 
         <main class="container py-4">

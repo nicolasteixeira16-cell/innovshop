@@ -1,0 +1,61 @@
+{% set messages = {
+    en_attente: "Votre commande est de nouveau en attente de validation.",
+    validee: "Bonne nouvelle : votre commande a été validée et va être préparée.",
+    expediee: "Votre commande a été expédiée. Elle arrivera bientôt à l'adresse indiquée.",
+    annulee: "Votre commande a été annulée."
+} %}
+<!DOCTYPE html>
+<html lang="fr">
+<body style="margin:0;padding:0;background:#f4f5f7;font-family:Arial,Helvetica,sans-serif;color:#212529;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;padding:24px 0;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;">
+                    <tr>
+                        <td style="background:#212529;color:#ffffff;padding:20px 24px;font-size:22px;font-weight:bold;">
+                            InnovShop
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:24px;">
+                            <p>Bonjour {{ commande.utilisateur.prenom }},</p>
+                            <p>{{ messages[commande.statut] ?? 'Le statut de votre commande a été mis à jour.' }}</p>
+
+                            <table width="100%" cellpadding="8" cellspacing="0" style="background:#f1f3f5;border-radius:6px;margin:16px 0;">
+                                <tr>
+                                    <td>Commande n°</td>
+                                    <td style="text-align:right;"><strong>{{ commande.id }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Passée le</td>
+                                    <td style="text-align:right;">{{ commande.dateCreation|date('d/m/Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Statut</td>
+                                    <td style="text-align:right;"><strong>{{ commande.statutLibelle }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td style="text-align:right;">{{ commande.total|number_format(2, ',', ' ') }} €</td>
+                                </tr>
+                            </table>
+
+                            <p>
+                                <a href="{{ url('app_account_order_show', {id: commande.id}) }}"
+                                   style="display:inline-block;background:#212529;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:4px;">
+                                    Voir ma commande
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background:#f1f3f5;color:#6c757d;font-size:12px;padding:16px 24px;">
+                            Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

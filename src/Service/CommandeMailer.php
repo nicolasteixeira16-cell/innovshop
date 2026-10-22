@@ -22,6 +22,28 @@ class CommandeMailer
     /** Retourne true si l'email est parti, false sinon (la commande n'est jamais bloquée). */
     public function envoyerConfirmation(Commande $commande): bool
     {
+        return $this->envoyer(
+            $commande,
+            sprintf('InnovShop - Confirmation de votre commande n°%d', $commande->getId()),
+            'emails/commande_confirmation'
+        );
+    }
+
+    public function envoyerChangementStatut(Commande $commande): bool
+    {
+        return $this->envoyer(
+            $commande,
+            sprintf(
+                'InnovShop - Commande n°%d : %s',
+                $commande->getId(),
+                mb_strtolower($commande->getStatutLibelle())
+            ),
+            'emails/commande_statut'
+        );
+    }
+
+    private function envoyer(Commande $commande, string $sujet, string $gabarit): bool
+    {
         $utilisateur = $commande->getUtilisateur();
 
         $email = (new TemplatedEmail())
@@ -30,9 +52,9 @@ class CommandeMailer
                 $utilisateur->getEmail(),
                 trim($utilisateur->getPrenom() . ' ' . $utilisateur->getNom())
             ))
-            ->subject(sprintf('InnovShop - Confirmation de votre commande n°%d', $commande->getId()))
-            ->htmlTemplate('emails/commande_confirmation.html.twig')
-            ->textTemplate('emails/commande_confirmation.txt.twig')
+            ->subject($sujet)
+            ->htmlTemplate($gabarit . '.html.twig')
+            ->textTemplate($gabarit . '.txt.twig')
             ->context(['commande' => $commande]);
 
         try {
@@ -40,8 +62,9 @@ class CommandeMailer
 
             return true;
         } catch (TransportExceptionInterface $exception) {
-            $this->logger->error("Échec de l'envoi de l'email de confirmation", [
+            $this->logger->error("Échec de l'envoi d'un email de commande", [
                 'commande' => $commande->getId(),
+                'sujet' => $sujet,
                 'erreur' => $exception->getMessage(),
             ]);
 

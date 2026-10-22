@@ -13,9 +13,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use App\Service\CommandeMailer;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CommandeCrudController extends AbstractCrudController
 {
+
+    public function __construct(private CommandeMailer $commandeMailer)
+    {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Commande::class;
@@ -63,5 +70,29 @@ class CommandeCrudController extends AbstractCrudController
                 ]),
                 TextareaField::new('adresseLivraison', 'Adresse de livraison')->onlyOnDetail(),
         ];
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+        {
+        // Statut tel qu'il est en base, avant l'enregistrement.
+        $ancienStatut = null;
+        if ($entityInstance instanceof Commande) {
+            $donneesOriginales = $entityManager->getUnitOfWork()->getOriginalEntityData($entityInstance);
+            $ancienStatut = $donneesOriginales['statut'] ?? null;
+        }
+
+        parent::updateEntity($entityManager, $entityInstance);
+
+        // Email au client seulement si le statut a réellement changé.
+        if ($entityInstance instanceof Commande
+            && $ancienStatut !== null
+            && $ancienStatut !== $entityInstance->getStatut()
+        ) {
+            if ($this->commandeMailer->envoyerChangementStatut($entityInstance)) {
+                $this->addFlash('success', 'Un email a été envoyé au client pour l\'informer du changement de statut.');
+            } else {
+                $this->addFlash('warning', 'Le statut a été modifié, mais l\'email au client n\'a pas pu être envoyé.');
+            }
+        }
     }
 }

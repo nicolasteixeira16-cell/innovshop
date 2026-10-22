@@ -1,0 +1,17 @@
+{% set messages = {
+    en_attente: "Votre commande est de nouveau en attente de validation.",
+    validee: "Bonne nouvelle : votre commande a été validée et va être préparée.",
+    expediee: "Votre commande a été expédiée. Elle arrivera bientôt à l'adresse indiquée.",
+    annulee: "Votre commande a été annulée."
+} %}
+Bonjour {{ commande.utilisateur.prenom }},
+
+{{ messages[commande.statut] ?? 'Le statut de votre commande a été mis à jour.' }}
+
+Commande n° {{ commande.id }} du {{ commande.dateCreation|date('d/m/Y') }}
+Statut : {{ commande.statutLibelle }}
+Total : {{ commande.total|number_format(2, ',', ' ') }} €
+
+Voir ma commande : {{ url('app_account_order_show', {id: commande.id}) }}
+
+L'équipe InnovShop
