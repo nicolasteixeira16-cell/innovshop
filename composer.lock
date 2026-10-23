@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16196bdc24a2085d8ce6865be9c2dc44",
+    "content-hash": "d30643f77db5ffb2f09f2498ace02737",
     "packages": [
         {
             "name": "composer/semver",
@@ -2315,6 +2315,107 @@
                 "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v9.5.0"
             },
             "time": "2026-09-20T15:02:00+00:00"
+        },
+        {
+            "name": "sensiolabs/minify-bundle",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/minify-bundle.git",
+                "reference": "fd48db694e39d64ba832a0f0e7c5686dcc619bc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/minify-bundle/zipball/fd48db694e39d64ba832a0f0e7c5686dcc619bc5",
+                "reference": "fd48db694e39d64ba832a0f0e7c5686dcc619bc5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/log": "^2|^3",
+                "symfony/filesystem": "^6.4|^7.0|^8.0",
+                "symfony/http-client-contracts": "^3.5",
+                "symfony/process": "^6.4|^7.0|^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.2",
+                "phpunit/phpunit": "^10.5",
+                "symfony/asset-mapper": "^6.4|^7.0|^8.0",
+                "symfony/console": "^6.4|^7.0|^8.0",
+                "symfony/framework-bundle": "^6.4|^7.0|^8.0",
+                "symfony/http-client": "^6.4|^7.0|^8.0",
+                "symfony/http-kernel": "^6.4|^7.0|^8.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/tdewolff/minify",
+                    "name": "tdewolff/minify"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sensiolabs\\MinifyBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon André",
+                    "email": "smn.andre@gmail.com"
+                },
+                {
+                    "name": "SensioLabs",
+                    "homepage": "https://sensiolabs.com"
+                }
+            ],
+            "description": "Assets Minifier (CSS, JS) for Symfony & Minify integration in Asset Mapper",
+            "homepage": "https://github.com/sensiolabs/minify-bundle",
+            "keywords": [
+                "JS",
+                "asset-mapper",
+                "assets",
+                "compress",
+                "css",
+                "minifier",
+                "minify",
+                "symfony",
+                "uglify"
+            ],
+            "support": {
+                "issues": "https://github.com/sensiolabs/minify-bundle/issues",
+                "source": "https://github.com/sensiolabs/minify-bundle/tree/v1.3.1"
+            },
+            "time": "2026-09-09T19:42:27+00:00"
+        },
+        {
+            "name": "symfony/apache-pack",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/apache-pack.git",
+                "reference": "3aa5818d73ad2551281fc58a75afd9ca82622e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/apache-pack/zipball/3aa5818d73ad2551281fc58a75afd9ca82622e6c",
+                "reference": "3aa5818d73ad2551281fc58a75afd9ca82622e6c",
+                "shasum": ""
+            },
+            "type": "symfony-pack",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A pack for Apache support in Symfony",
+            "support": {
+                "issues": "https://github.com/symfony/apache-pack/issues",
+                "source": "https://github.com/symfony/apache-pack/tree/master"
+            },
+            "time": "2017-12-12T01:46:35+00:00"
         },
         {
             "name": "symfony/asset",

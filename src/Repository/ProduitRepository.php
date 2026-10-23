@@ -47,15 +47,29 @@ class ProduitRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    /** @return Produit[] */
+        /** @return Produit[] */
     public function findEnVedette(int $limite = 4): array
     {
-        return $this->findBy(['enVedette' => true], ['dateCreation' => 'DESC'], $limite);
+        return $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->join('p.categorie', 'c')
+            ->andWhere('p.enVedette = :vedette')
+            ->setParameter('vedette', true)
+            ->orderBy('p.dateCreation', 'DESC')
+            ->setMaxResults($limite)
+            ->getQuery()
+            ->getResult();
     }
 
     /** @return Produit[] */
     public function findNouveautes(int $limite = 4): array
     {
-        return $this->findBy([], ['dateCreation' => 'DESC'], $limite);
+        return $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->join('p.categorie', 'c')
+            ->orderBy('p.dateCreation', 'DESC')
+            ->setMaxResults($limite)
+            ->getQuery()
+            ->getResult();
     }
 }

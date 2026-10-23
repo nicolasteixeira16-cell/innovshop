@@ -18,7 +18,7 @@ class Panier
     #[ORM\Column]
     private ?\DateTimeImmutable $dateCreation = null;
 
-    #[ORM\OneToOne(inversedBy: 'panier', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Utilisateur $utilisateur = null;
 
     /**

@@ -68,9 +68,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'utilisateur')]
     private Collection $commandes;
 
-    #[ORM\OneToOne(mappedBy: 'utilisateur', cascade: ['persist', 'remove'])]
-    private ?Panier $panier = null;
-
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
@@ -272,25 +269,4 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPanier(): ?Panier
-    {
-        return $this->panier;
-    }
-
-    public function setPanier(?Panier $panier): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($panier === null && $this->panier !== null) {
-            $this->panier->setUtilisateur(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($panier !== null && $panier->getUtilisateur() !== $this) {
-            $panier->setUtilisateur($this);
-        }
-
-        $this->panier = $panier;
-
-        return $this;
-    }
 }

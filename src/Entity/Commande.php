@@ -9,6 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
+#[ORM\Index(name: 'idx_commande_statut', columns: ['statut'])]
+#[ORM\Index(name: 'idx_commande_date_creation', columns: ['date_creation'])]
 class Commande {
 
 public const STATUT_EN_ATTENTE = 'en_attente';
