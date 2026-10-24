@@ -47,7 +47,7 @@ class ProduitRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-        /** @return Produit[] */
+    /** @return Produit[] */
     public function findEnVedette(int $limite = 4): array
     {
         return $this->createQueryBuilder('p')

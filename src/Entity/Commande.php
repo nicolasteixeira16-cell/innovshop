@@ -11,19 +11,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 #[ORM\Index(name: 'idx_commande_statut', columns: ['statut'])]
 #[ORM\Index(name: 'idx_commande_date_creation', columns: ['date_creation'])]
-class Commande {
+class Commande
+{
+    public const STATUT_EN_ATTENTE = 'en_attente';
+    public const STATUT_EXPEDIEE = 'expediee';
+    public const STATUT_ANNULEE = 'annulee';
+    public const STATUT_VALIDEE = 'validee';
 
-public const STATUT_EN_ATTENTE = 'en_attente';
-public const STATUT_EXPEDIEE = 'expediee';
-public const STATUT_ANNULEE = 'annulee';
-public const STATUT_VALIDEE = 'validee';
-
-public const STATUTS = [
-        self::STATUT_EN_ATTENTE => 'En attente',
-        self::STATUT_VALIDEE => 'Validée',
-        self::STATUT_EXPEDIEE => 'Expédiée',
-        self::STATUT_ANNULEE => 'Annulée',
-    ];
+    public const STATUTS = [
+            self::STATUT_EN_ATTENTE => 'En attente',
+            self::STATUT_VALIDEE => 'Validée',
+            self::STATUT_EXPEDIEE => 'Expédiée',
+            self::STATUT_ANNULEE => 'Annulée',
+        ];
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $adresseLivraison = null;
@@ -77,9 +77,9 @@ public const STATUTS = [
     }
 
     public function getStatutLibelle(): string
-{
-    return self::STATUTS[$this->statut] ?? (string) $this->statut;
-}
+    {
+        return self::STATUTS[$this->statut] ?? (string) $this->statut;
+    }
 
     public function getTotal(): ?string
     {
@@ -148,15 +148,15 @@ public const STATUTS = [
     }
 
     public function getAdresseLivraison(): ?string
-{
-    return $this->adresseLivraison;
-}
+    {
+        return $this->adresseLivraison;
+    }
 
-public function setAdresseLivraison(?string $adresseLivraison): static
-{
-    $this->adresseLivraison = $adresseLivraison;
+    public function setAdresseLivraison(?string $adresseLivraison): static
+    {
+        $this->adresseLivraison = $adresseLivraison;
 
-    return $this;
-}
+        return $this;
+    }
 
 }

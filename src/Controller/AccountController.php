@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Security\Voter\CommandeVoter;
 
 #[Route('/mon-compte')]
 #[IsGranted('ROLE_USER')]
@@ -54,10 +55,7 @@ class AccountController extends AbstractController
     #[Route('/commandes/{id}', name: 'app_account_order_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function orderShow(Commande $commande): Response
     {
-        // Un client ne peut consulter que ses propres commandes.
-        if ($commande->getUtilisateur() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(CommandeVoter::VOIR, $commande);
 
         return $this->render('account/order_show.html.twig', [
             'commande' => $commande,
@@ -67,9 +65,7 @@ class AccountController extends AbstractController
     #[Route('/commandes/{id}/facture', name: 'app_account_order_invoice', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function orderInvoice(Commande $commande, InvoicePdfGenerator $generator): Response
     {
-        if ($commande->getUtilisateur() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(CommandeVoter::VOIR, $commande);
 
         // Pas de facture pour une commande annulée.
         if ($commande->getStatut() === Commande::STATUT_ANNULEE) {

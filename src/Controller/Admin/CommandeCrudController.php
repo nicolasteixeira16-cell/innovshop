@@ -18,7 +18,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CommandeCrudController extends AbstractCrudController
 {
-
     public function __construct(private CommandeMailer $commandeMailer)
     {
     }
@@ -73,7 +72,7 @@ class CommandeCrudController extends AbstractCrudController
     }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-        {
+    {
         // Statut tel qu'il est en base, avant l'enregistrement.
         $ancienStatut = null;
         if ($entityInstance instanceof Commande) {

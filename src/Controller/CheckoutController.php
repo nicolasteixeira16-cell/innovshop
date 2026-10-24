@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commande;
 use App\Entity\Utilisateur;
 use App\Form\LivraisonFormType;
+use App\Security\Voter\CommandeVoter;
 use App\Service\CartService;
 use App\Service\OrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -121,10 +122,7 @@ class CheckoutController extends AbstractController
     #[Route('/merci/{id}', name: 'app_checkout_success', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function success(Commande $commande): Response
     {
-        // Un client ne peut voir que ses propres commandes.
-        if ($commande->getUtilisateur() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(CommandeVoter::VOIR, $commande);
 
         return $this->render('checkout/success.html.twig', [
             'commande' => $commande,

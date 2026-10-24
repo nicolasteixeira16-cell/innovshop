@@ -1,0 +1,7 @@
+framework:
+    html_sanitizer:
+        sanitizers:
+            produit:
+                # Autorise les balises sûres (p, b, i, ul, li, a, img…) et supprime
+                # tout ce qui est dangereux (script, onclick, onerror, iframe…)
+                allow_safe_elements: true

@@ -85,22 +85,22 @@ class LigneCommande
     }
 
     public function getQuantite(): int
-{
-    return $this->quantite;
-}
+    {
+        return $this->quantite;
+    }
 
-public function setQuantite(int $quantite): static
-{
-    $this->quantite = $quantite;
+    public function setQuantite(int $quantite): static
+    {
+        $this->quantite = $quantite;
 
-    return $this;
-}
+        return $this;
+    }
 
-public function getSousTotal(): string
-{
-    // Calcul en centimes pour éviter les erreurs d'arrondi
-    $cents = (int) round(((float) $this->prixUnitaire) * 100) * $this->quantite;
+    public function getSousTotal(): string
+    {
+        // Calcul en centimes pour éviter les erreurs d'arrondi
+        $cents = (int) round(((float) $this->prixUnitaire) * 100) * $this->quantite;
 
-    return number_format($cents / 100, 2, '.', '');
-}
+        return number_format($cents / 100, 2, '.', '');
+    }
 }

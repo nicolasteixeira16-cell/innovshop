@@ -19,6 +19,7 @@ class LivraisonFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(message: 'Veuillez saisir votre adresse.'),
                     new Length(max: 255),
+                    new Regex(pattern: '/[<>]/', match: false, message: 'Les caractères < et > ne sont pas autorisés.'),
                 ],
             ])
             ->add('codePostal', TextType::class, [
@@ -33,6 +34,7 @@ class LivraisonFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(message: 'Veuillez saisir votre ville.'),
                     new Length(max: 100),
+                    new Regex(pattern: '/[<>]/', match: false, message: 'Les caractères < et > ne sont pas autorisés.'),
                 ],
             ])
             ->add('pays', TextType::class, [
@@ -40,6 +42,7 @@ class LivraisonFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(message: 'Veuillez saisir votre pays.'),
                     new Length(max: 100),
+                    new Regex(pattern: '/[<>]/', match: false, message: 'Les caractères < et > ne sont pas autorisés.'),
                 ],
             ])
         ;

@@ -14,14 +14,24 @@ class Adresse
     #[ORM\Column]
     private ?int $id = null;
 
-        #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Veuillez saisir votre adresse.')]
     #[Assert\Length(max: 255)]
+    #[Assert\Regex(
+        pattern: '/[<>]/',
+        match: false,
+        message: 'Les caractères < et > ne sont pas autorisés.'
+    )]
     private ?string $rue = null;
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Veuillez saisir votre ville.')]
     #[Assert\Length(max: 100)]
+    #[Assert\Regex(
+        pattern: '/[<>]/',
+        match: false,
+        message: 'Les caractères < et > ne sont pas autorisés.'
+    )]
     private ?string $ville = null;
 
     #[ORM\Column(length: 10)]
@@ -32,6 +42,11 @@ class Adresse
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Veuillez saisir votre pays.')]
     #[Assert\Length(max: 100)]
+    #[Assert\Regex(
+        pattern: '/[<>]/',
+        match: false,
+        message: 'Les caractères < et > ne sont pas autorisés.'
+    )]
     private ?string $pays = null;
 
     #[ORM\Column]

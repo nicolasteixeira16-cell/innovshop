@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email.')]
+
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -24,6 +25,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank(message: 'Veuillez saisir votre adresse email.')]
     #[Assert\Email(message: "L'adresse email {{ value }} n'est pas valide.")]
+    #[Assert\Length(max: 180, maxMessage: "L'adresse email ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $email = null;
 
     /**
@@ -40,11 +42,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Veuillez saisir votre prénom.')]
+    #[Assert\Regex(
+        pattern: "/^[\p{L}][\p{L} '’\-]*$/u",
+        message: 'Ce champ ne peut contenir que des lettres, espaces, apostrophes et tirets.'
+    )]
     #[Assert\Length(max: 100, maxMessage: 'Le prénom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Veuillez saisir votre nom.')]
+    #[Assert\Regex(
+        pattern: "/^[\p{L}][\p{L} '’\-]*$/u",
+        message: 'Ce champ ne peut contenir que des lettres, espaces, apostrophes et tirets.'
+    )]
     #[Assert\Length(max: 100, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
@@ -116,12 +126,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-    return array_values(array_unique($roles));
+        return array_values(array_unique($roles));
     }
 
-/**
- * @param list<string> $roles
- */
+    /**
+     * @param list<string> $roles
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = array_values($roles);
@@ -151,7 +161,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $data = (array) $this;
         $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
-        
+
         return $data;
     }
 
