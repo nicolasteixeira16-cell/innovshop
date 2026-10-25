@@ -164,7 +164,7 @@ class Produit
         return $this;
     }
 
-        public function getVendeur(): ?Utilisateur
+    public function getVendeur(): ?Utilisateur
     {
         return $this->vendeur;
     }
@@ -195,7 +195,7 @@ class Produit
 
     public function isPublie(): bool
     {
-        return $this->statut === self::STATUT_PUBLIE;
+        return self::STATUT_PUBLIE === $this->statut;
     }
 
     /**

@@ -21,7 +21,7 @@ class OrderService
     public function creerDepuisPanier(Utilisateur $utilisateur, array $livraison): Commande
     {
         $items = $this->cartService->getItems();
-        if ($items === []) {
+        if ([] === $items) {
             throw new \LogicException('Impossible de commander : le panier est vide.');
         }
 
@@ -59,9 +59,9 @@ class OrderService
     private function formaterAdresse(Utilisateur $utilisateur, array $livraison): string
     {
         return implode("\n", [
-            trim($utilisateur->getPrenom() . ' ' . $utilisateur->getNom()),
+            trim($utilisateur->getPrenom().' '.$utilisateur->getNom()),
             $livraison['rue'],
-            $livraison['codePostal'] . ' ' . $livraison['ville'],
+            $livraison['codePostal'].' '.$livraison['ville'],
             $livraison['pays'],
         ]);
     }

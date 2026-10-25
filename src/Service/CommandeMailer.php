@@ -50,11 +50,11 @@ class CommandeMailer
             ->from(new Address($this->mailFrom, 'InnovShop'))
             ->to(new Address(
                 $utilisateur->getEmail(),
-                trim($utilisateur->getPrenom() . ' ' . $utilisateur->getNom())
+                trim($utilisateur->getPrenom().' '.$utilisateur->getNom())
             ))
             ->subject($sujet)
-            ->htmlTemplate($gabarit . '.html.twig')
-            ->textTemplate($gabarit . '.txt.twig')
+            ->htmlTemplate($gabarit.'.html.twig')
+            ->textTemplate($gabarit.'.txt.twig')
             ->context(['commande' => $commande]);
 
         try {

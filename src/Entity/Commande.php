@@ -19,11 +19,11 @@ class Commande
     public const STATUT_VALIDEE = 'validee';
 
     public const STATUTS = [
-            self::STATUT_EN_ATTENTE => 'En attente',
-            self::STATUT_VALIDEE => 'Validée',
-            self::STATUT_EXPEDIEE => 'Expédiée',
-            self::STATUT_ANNULEE => 'Annulée',
-        ];
+        self::STATUT_EN_ATTENTE => 'En attente',
+        self::STATUT_VALIDEE => 'Validée',
+        self::STATUT_EXPEDIEE => 'Expédiée',
+        self::STATUT_ANNULEE => 'Annulée',
+    ];
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $adresseLivraison = null;
@@ -158,5 +158,4 @@ class Commande
 
         return $this;
     }
-
 }

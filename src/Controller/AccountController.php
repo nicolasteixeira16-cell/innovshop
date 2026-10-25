@@ -9,6 +9,7 @@ use App\Form\AdresseFormType;
 use App\Form\ChangePasswordFormType;
 use App\Form\ProfilFormType;
 use App\Repository\CommandeRepository;
+use App\Security\Voter\CommandeVoter;
 use App\Service\InvoicePdfGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use App\Security\Voter\CommandeVoter;
 
 #[Route('/mon-compte')]
 #[IsGranted('ROLE_USER')]
@@ -68,7 +68,7 @@ class AccountController extends AbstractController
         $this->denyAccessUnlessGranted(CommandeVoter::VOIR, $commande);
 
         // Pas de facture pour une commande annulée.
-        if ($commande->getStatut() === Commande::STATUT_ANNULEE) {
+        if (Commande::STATUT_ANNULEE === $commande->getStatut()) {
             throw $this->createNotFoundException('Aucune facture pour une commande annulée.');
         }
 
@@ -76,7 +76,7 @@ class AccountController extends AbstractController
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => HeaderUtils::makeDisposition(
                 HeaderUtils::DISPOSITION_ATTACHMENT,
-                $generator->numero($commande) . '.pdf'
+                $generator->numero($commande).'.pdf'
             ),
         ]);
     }

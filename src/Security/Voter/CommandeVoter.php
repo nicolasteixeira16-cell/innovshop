@@ -17,7 +17,7 @@ final class CommandeVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $attribute === self::VOIR && $subject instanceof Commande;
+        return self::VOIR === $attribute && $subject instanceof Commande;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool

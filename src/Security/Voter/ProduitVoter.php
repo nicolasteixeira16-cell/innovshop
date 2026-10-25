@@ -16,7 +16,7 @@ class ProduitVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $attribute === self::MODIFIER && $subject instanceof Produit;
+        return self::MODIFIER === $attribute && $subject instanceof Produit;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -27,7 +27,7 @@ class ProduitVoter extends Voter
             return false;
         }
 
-        /** @var Produit $subject */
+        /* @var Produit $subject */
         return $subject->getVendeur()?->getId() === $utilisateur->getId();
     }
 }

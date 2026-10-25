@@ -13,7 +13,7 @@ class CommandeAccesTest extends FonctionnelTestCase
         $commande = $this->creerCommande($proprietaire);
 
         $this->client->loginUser($proprietaire);
-        $this->client->request('GET', '/mon-compte/commandes/' . $commande->getId());
+        $this->client->request('GET', '/mon-compte/commandes/'.$commande->getId());
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('body', 'Casque Test');
@@ -26,7 +26,7 @@ class CommandeAccesTest extends FonctionnelTestCase
         $commande = $this->creerCommande($proprietaire);
 
         $this->client->loginUser($proprietaire);
-        $this->client->request('GET', '/mon-compte/commandes/' . $commande->getId() . '/facture');
+        $this->client->request('GET', '/mon-compte/commandes/'.$commande->getId().'/facture');
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('Content-Type', 'application/pdf');
@@ -39,7 +39,7 @@ class CommandeAccesTest extends FonctionnelTestCase
         $commande = $this->creerCommande($proprietaire);
 
         $this->client->loginUser($intrus);
-        $this->client->request('GET', '/mon-compte/commandes/' . $commande->getId());
+        $this->client->request('GET', '/mon-compte/commandes/'.$commande->getId());
 
         $this->assertResponseStatusCodeSame(403);
     }
@@ -51,7 +51,7 @@ class CommandeAccesTest extends FonctionnelTestCase
         $commande = $this->creerCommande($proprietaire);
 
         $this->client->loginUser($intrus);
-        $this->client->request('GET', '/mon-compte/commandes/' . $commande->getId() . '/facture');
+        $this->client->request('GET', '/mon-compte/commandes/'.$commande->getId().'/facture');
 
         $this->assertResponseStatusCodeSame(403);
     }
@@ -71,7 +71,7 @@ class CommandeAccesTest extends FonctionnelTestCase
         $commande = $this->creerCommande($proprietaire, Commande::STATUT_ANNULEE);
 
         $this->client->loginUser($proprietaire);
-        $this->client->request('GET', '/mon-compte/commandes/' . $commande->getId() . '/facture');
+        $this->client->request('GET', '/mon-compte/commandes/'.$commande->getId().'/facture');
 
         $this->assertResponseStatusCodeSame(404);
     }

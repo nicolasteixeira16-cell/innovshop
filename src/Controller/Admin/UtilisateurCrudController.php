@@ -65,7 +65,7 @@ class UtilisateurCrudController extends AbstractCrudController
                 ->renderAsBadges(),
             TextField::new('nomBoutique', 'Boutique')->setRequired(false),
             BooleanField::new('demandeVendeur', 'Demande vendeur'),
-            
+
             // Mot de passe : uniquement à la création d'un compte.
             TextField::new('password', 'Mot de passe')
                 ->setFormType(PasswordType::class)

@@ -52,7 +52,7 @@ class ProduitVendeurController extends AbstractController
     {
         $this->denyAccessUnlessGranted(ProduitVoter::MODIFIER, $produit);
 
-        if (!$this->isCsrfTokenValid('supprimer_produit_' . $produit->getId(), (string) $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('supprimer_produit_'.$produit->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
@@ -82,7 +82,7 @@ class ProduitVendeurController extends AbstractController
             /** @var UploadedFile|null $fichier */
             $fichier = $form->get('imageFichier')->getData();
 
-            if ($fichier !== null) {
+            if (null !== $fichier) {
                 $ancienne = $produit->getImage();
                 $produit->setImage($this->enregistrerImage($fichier));
                 $this->supprimerImage($ancienne);
@@ -113,19 +113,19 @@ class ProduitVendeurController extends AbstractController
     private function enregistrerImage(UploadedFile $fichier): string
     {
         $base = $this->slugger->slug(pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME))->lower();
-        $nom = $base . '-' . bin2hex(random_bytes(6)) . '.' . ($fichier->guessExtension() ?? 'jpg');
-        $fichier->move($this->projectDir . '/public/uploads/produits', $nom);
+        $nom = $base.'-'.bin2hex(random_bytes(6)).'.'.($fichier->guessExtension() ?? 'jpg');
+        $fichier->move($this->projectDir.'/public/uploads/produits', $nom);
 
         return $nom;
     }
 
     private function supprimerImage(?string $nom): void
     {
-        if ($nom === null || $nom === '') {
+        if (null === $nom || '' === $nom) {
             return;
         }
 
-        $chemin = $this->projectDir . '/public/uploads/produits/' . basename($nom);
+        $chemin = $this->projectDir.'/public/uploads/produits/'.basename($nom);
         if (is_file($chemin)) {
             unlink($chemin);
         }

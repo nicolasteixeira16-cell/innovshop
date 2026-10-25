@@ -50,10 +50,10 @@ class MarketplaceTest extends FonctionnelTestCase
         $vendeur = $this->creerUtilisateur('vendeur@test.fr', ['ROLE_VENDEUR']);
         $avecVendeur = $this->creerProduit('Avec vendeur', Produit::STATUT_EN_ATTENTE, $vendeur);
 
-        $this->client->request('GET', '/produits/' . $sansVendeur->getId());
+        $this->client->request('GET', '/produits/'.$sansVendeur->getId());
         $this->assertResponseStatusCodeSame(404);
 
-        $this->client->request('GET', '/produits/' . $avecVendeur->getId());
+        $this->client->request('GET', '/produits/'.$avecVendeur->getId());
         $this->assertResponseStatusCodeSame(404);
     }
 
@@ -63,7 +63,7 @@ class MarketplaceTest extends FonctionnelTestCase
         $produit = $this->creerProduit('Mon produit', Produit::STATUT_EN_ATTENTE, $vendeur);
 
         $this->client->loginUser($vendeur);
-        $this->client->request('GET', '/produits/' . $produit->getId());
+        $this->client->request('GET', '/produits/'.$produit->getId());
 
         $this->assertResponseIsSuccessful();
     }
@@ -75,7 +75,7 @@ class MarketplaceTest extends FonctionnelTestCase
         $client = $this->creerUtilisateur('client@test.fr');
 
         $this->client->loginUser($client);
-        $this->client->request('GET', '/produits/' . $produit->getId());
+        $this->client->request('GET', '/produits/'.$produit->getId());
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -85,17 +85,17 @@ class MarketplaceTest extends FonctionnelTestCase
         $publie = $this->creerProduit('Produit Visible');
         $enAttente = $this->creerProduit('Produit Secret', Produit::STATUT_EN_ATTENTE);
 
-        $crawler = $this->client->request('GET', '/produits/' . $publie->getId());
+        $crawler = $this->client->request('GET', '/produits/'.$publie->getId());
         $champ = $crawler->filter('input[name="_token"]');
         $this->assertGreaterThan(0, $champ->count(), 'Aucun jeton CSRF trouvé sur la fiche produit.');
         $jeton = (string) $champ->first()->attr('value');
 
         // Témoin : le produit publié s'ajoute bien (redirection vers le panier).
-        $this->client->request('POST', '/panier/ajouter/' . $publie->getId(), ['_token' => $jeton]);
+        $this->client->request('POST', '/panier/ajouter/'.$publie->getId(), ['_token' => $jeton]);
         $this->assertResponseRedirects();
 
         // Le produit en attente est refusé.
-        $this->client->request('POST', '/panier/ajouter/' . $enAttente->getId(), ['_token' => $jeton]);
+        $this->client->request('POST', '/panier/ajouter/'.$enAttente->getId(), ['_token' => $jeton]);
         $this->assertResponseStatusCodeSame(404);
     }
 
@@ -151,7 +151,7 @@ class MarketplaceTest extends FonctionnelTestCase
         $produit = $this->creerProduit('Mon produit', Produit::STATUT_PUBLIE, $vendeur);
 
         $this->client->loginUser($vendeur);
-        $this->client->request('GET', '/vendeur/produits/' . $produit->getId() . '/modifier');
+        $this->client->request('GET', '/vendeur/produits/'.$produit->getId().'/modifier');
 
         $this->assertResponseIsSuccessful();
     }
@@ -165,10 +165,10 @@ class MarketplaceTest extends FonctionnelTestCase
 
         $this->client->loginUser($intrus);
 
-        $this->client->request('GET', '/vendeur/produits/' . $id . '/modifier');
+        $this->client->request('GET', '/vendeur/produits/'.$id.'/modifier');
         $this->assertResponseStatusCodeSame(403);
 
-        $this->client->request('POST', '/vendeur/produits/' . $id . '/supprimer');
+        $this->client->request('POST', '/vendeur/produits/'.$id.'/supprimer');
         $this->assertResponseStatusCodeSame(403);
 
         $this->em->clear();

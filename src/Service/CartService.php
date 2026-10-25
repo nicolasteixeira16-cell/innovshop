@@ -72,7 +72,7 @@ class CartService
     public function getItems(): array
     {
         $cart = $this->getRaw();
-        if ($cart === []) {
+        if ([] === $cart) {
             return [];
         }
 

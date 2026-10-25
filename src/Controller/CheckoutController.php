@@ -7,13 +7,13 @@ use App\Entity\Utilisateur;
 use App\Form\LivraisonFormType;
 use App\Security\Voter\CommandeVoter;
 use App\Service\CartService;
+use App\Service\CommandeMailer;
 use App\Service\OrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use App\Service\CommandeMailer;
 
 #[Route('/commande')]
 #[IsGranted('ROLE_USER')]
@@ -131,7 +131,7 @@ class CheckoutController extends AbstractController
 
     private function redirigerSiPanierVide(CartService $cart): ?Response
     {
-        if ($cart->getCount() === 0) {
+        if (0 === $cart->getCount()) {
             $this->addFlash('warning', 'Votre panier est vide.');
 
             return $this->redirectToRoute('app_cart');

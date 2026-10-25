@@ -29,14 +29,14 @@ class ProduitRepository extends ServiceEntityRepository
             ->join('p.categorie', 'c');
 
         $qb->andWhere('p.statut = :publie')
-           ->setParameter('publie', Produit::STATUT_PUBLIE);    
+           ->setParameter('publie', Produit::STATUT_PUBLIE);
 
-        if ($q !== null && $q !== '') {
+        if (null !== $q && '' !== $q) {
             $qb->andWhere('p.nom LIKE :q OR p.description LIKE :q')
-               ->setParameter('q', '%' . $q . '%');
+               ->setParameter('q', '%'.$q.'%');
         }
 
-        if ($categorieSlug !== null && $categorieSlug !== '') {
+        if (null !== $categorieSlug && '' !== $categorieSlug) {
             $qb->andWhere('c.slug = :slug')
                ->setParameter('slug', $categorieSlug);
         }
@@ -81,7 +81,6 @@ class ProduitRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
     /** @return Produit[] */
     public function findByVendeur(Utilisateur $vendeur): array
     {
@@ -94,5 +93,4 @@ class ProduitRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

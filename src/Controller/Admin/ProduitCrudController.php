@@ -32,7 +32,6 @@ class ProduitCrudController extends AbstractCrudController
             ->setDefaultSort(['dateCreation' => 'DESC']);
     }
 
-
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
@@ -55,7 +54,7 @@ class ProduitCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
                 ->setRequired(false),
             BooleanField::new('enVedette', 'En vedette'),
-                        ChoiceField::new('statut', 'Statut')
+            ChoiceField::new('statut', 'Statut')
                 ->setChoices(array_flip(Produit::STATUTS))
                 ->renderAsBadges([
                     Produit::STATUT_EN_ATTENTE => 'warning',

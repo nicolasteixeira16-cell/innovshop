@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Commande;
+use App\Service\CommandeMailer;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -13,8 +15,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use App\Service\CommandeMailer;
-use Doctrine\ORM\EntityManagerInterface;
 
 class CommandeCrudController extends AbstractCrudController
 {
@@ -67,7 +67,7 @@ class CommandeCrudController extends AbstractCrudController
                     Commande::STATUT_EXPEDIEE => 'success',
                     Commande::STATUT_ANNULEE => 'danger',
                 ]),
-                TextareaField::new('adresseLivraison', 'Adresse de livraison')->onlyOnDetail(),
+            TextareaField::new('adresseLivraison', 'Adresse de livraison')->onlyOnDetail(),
         ];
     }
 
@@ -84,7 +84,7 @@ class CommandeCrudController extends AbstractCrudController
 
         // Email au client seulement si le statut a réellement changé.
         if ($entityInstance instanceof Commande
-            && $ancienStatut !== null
+            && null !== $ancienStatut
             && $ancienStatut !== $entityInstance->getStatut()
         ) {
             if ($this->commandeMailer->envoyerChangementStatut($entityInstance)) {
