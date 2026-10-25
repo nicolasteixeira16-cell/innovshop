@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Produit;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -26,6 +27,9 @@ class ProduitRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')
             ->addSelect('c')
             ->join('p.categorie', 'c');
+
+        $qb->andWhere('p.statut = :publie')
+           ->setParameter('publie', Produit::STATUT_PUBLIE);    
 
         if ($q !== null && $q !== '') {
             $qb->andWhere('p.nom LIKE :q OR p.description LIKE :q')
@@ -53,6 +57,8 @@ class ProduitRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->addSelect('c')
             ->join('p.categorie', 'c')
+            ->andWhere('p.statut = :publie')
+            ->setParameter('publie', Produit::STATUT_PUBLIE)
             ->andWhere('p.enVedette = :vedette')
             ->setParameter('vedette', true)
             ->orderBy('p.dateCreation', 'DESC')
@@ -67,9 +73,26 @@ class ProduitRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->addSelect('c')
             ->join('p.categorie', 'c')
+            ->andWhere('p.statut = :publie')
+            ->setParameter('publie', Produit::STATUT_PUBLIE)
             ->orderBy('p.dateCreation', 'DESC')
             ->setMaxResults($limite)
             ->getQuery()
             ->getResult();
     }
+
+
+    /** @return Produit[] */
+    public function findByVendeur(Utilisateur $vendeur): array
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->join('p.categorie', 'c')
+            ->andWhere('p.vendeur = :vendeur')
+            ->setParameter('vendeur', $vendeur)
+            ->orderBy('p.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

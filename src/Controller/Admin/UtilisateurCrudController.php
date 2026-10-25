@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -57,10 +58,14 @@ class UtilisateurCrudController extends AbstractCrudController
                 ->setChoices([
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
+                    'Vendeur' => 'ROLE_VENDEUR',
                 ])
                 ->allowMultipleChoices()
                 ->renderExpanded()
                 ->renderAsBadges(),
+            TextField::new('nomBoutique', 'Boutique')->setRequired(false),
+            BooleanField::new('demandeVendeur', 'Demande vendeur'),
+            
             // Mot de passe : uniquement à la création d'un compte.
             TextField::new('password', 'Mot de passe')
                 ->setFormType(PasswordType::class)

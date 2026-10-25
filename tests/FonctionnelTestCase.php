@@ -3,7 +3,9 @@
 namespace App\Tests;
 
 use App\Entity\Commande;
+use App\Entity\Categorie;
 use App\Entity\LigneCommande;
+use App\Entity\Produit;
 use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -34,6 +36,32 @@ abstract class FonctionnelTestCase extends WebTestCase
         $this->em->flush();
 
         return $utilisateur;
+    }
+
+
+    protected function creerProduit(
+        string $nom,
+        string $statut = Produit::STATUT_PUBLIE,
+        ?Utilisateur $vendeur = null,
+    ): Produit {
+        $categorie = $this->em->getRepository(Categorie::class)->findOneBy(['slug' => 'categorie-test']);
+        if ($categorie === null) {
+            $categorie = (new Categorie())->setNom('Catégorie Test')->setSlug('categorie-test');
+            $this->em->persist($categorie);
+        }
+
+        $produit = (new Produit())
+            ->setNom($nom)
+            ->setDescription('Description de test')
+            ->setPrix('10.00')
+            ->setEnVedette(false)
+            ->setStatut($statut)
+            ->setVendeur($vendeur)
+            ->setCategorie($categorie);
+        $this->em->persist($produit);
+        $this->em->flush();
+
+        return $produit;
     }
 
     protected function creerCommande(Utilisateur $proprietaire, string $statut = Commande::STATUT_EN_ATTENTE): Commande

@@ -66,6 +66,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Regex(pattern: '/^\+?[0-9][0-9 .\-]{5,18}$/', message: 'Numéro de téléphone invalide.')]
     private ?string $telephone = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $nomBoutique = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $demandeVendeur = false;
+
     /**
      * @var Collection<int, Adresse>
      */
@@ -215,6 +221,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(?string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+        public function getNomBoutique(): ?string
+    {
+        return $this->nomBoutique;
+    }
+
+    public function setNomBoutique(?string $nomBoutique): static
+    {
+        $this->nomBoutique = $nomBoutique;
+
+        return $this;
+    }
+
+    public function isDemandeVendeur(): bool
+    {
+        return $this->demandeVendeur;
+    }
+
+    public function setDemandeVendeur(bool $demandeVendeur): static
+    {
+        $this->demandeVendeur = $demandeVendeur;
 
         return $this;
     }

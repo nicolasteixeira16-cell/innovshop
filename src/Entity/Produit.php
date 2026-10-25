@@ -11,8 +11,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[ORM\Index(name: 'idx_produit_date_creation', columns: ['date_creation'])]
+#[ORM\Index(name: 'idx_produit_statut', columns: ['statut'])]
 class Produit
 {
+    public const STATUT_EN_ATTENTE = 'en_attente';
+    public const STATUT_PUBLIE = 'publie';
+    public const STATUT_REFUSE = 'refuse';
+
+    public const STATUTS = [
+        self::STATUT_EN_ATTENTE => 'En attente de validation',
+        self::STATUT_PUBLIE => 'Publié',
+        self::STATUT_REFUSE => 'Refusé',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -44,6 +55,13 @@ class Produit
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Utilisateur $vendeur = null;
+
+    #[ORM\Column(length: 20, options: ['default' => self::STATUT_PUBLIE])]
+    private string $statut = self::STATUT_PUBLIE;
 
     /**
      * @var Collection<int, OptionProduit>
@@ -144,6 +162,40 @@ class Produit
         $this->categorie = $categorie;
 
         return $this;
+    }
+
+        public function getVendeur(): ?Utilisateur
+    {
+        return $this->vendeur;
+    }
+
+    public function setVendeur(?Utilisateur $vendeur): static
+    {
+        $this->vendeur = $vendeur;
+
+        return $this;
+    }
+
+    public function getStatut(): string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): static
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getStatutLibelle(): string
+    {
+        return self::STATUTS[$this->statut] ?? $this->statut;
+    }
+
+    public function isPublie(): bool
+    {
+        return $this->statut === self::STATUT_PUBLIE;
     }
 
     /**

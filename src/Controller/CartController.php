@@ -25,6 +25,9 @@ class CartController extends AbstractController
     public function add(Produit $produit, Request $request, CartService $cart): Response
     {
         $this->verifierJeton($request);
+        if (!$produit->isPublie()) {
+            throw $this->createNotFoundException();
+        }
         $cart->add($produit->getId());
 
         return $this->repondre($request, $cart, sprintf('« %s » a été ajouté au panier.', $produit->getNom()));

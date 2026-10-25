@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devenir vendeur - InnovShop{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <h1 class="h2 mb-3">Devenir vendeur sur InnovShop</h1>
+
+            {% if is_granted('ROLE_VENDEUR') %}
+                <div class="alert alert-success">Votre demande a été acceptée : vous êtes vendeur.</div>
+            {% elseif app.user.demandeVendeur %}
+                <div class="alert alert-info">
+                    Votre demande pour la boutique <strong>{{ app.user.nomBoutique }}</strong>
+                    est en cours d'examen par un administrateur.
+                </div>
+            {% else %}
+                <p class="text-muted">
+                    Vendez vos produits sur InnovShop. Indiquez le nom de votre boutique :
+                    un administrateur validera votre demande, puis vous pourrez publier vos produits.
+                </p>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                            <div class="mb-3">
+                                {{ form_label(form.nomBoutique) }}
+                                {{ form_widget(form.nomBoutique) }}
+                                <div class="text-danger small">{{ form_errors(form.nomBoutique) }}</div>
+                            </div>
+                            {{ form_widget(form.envoyer) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

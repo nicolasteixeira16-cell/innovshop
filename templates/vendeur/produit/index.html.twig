@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes produits - InnovShop{% endblock %}
+
+{% block body %}
+    {% set couleurs = {'en_attente': 'warning', 'publie': 'success', 'refuse': 'danger'} %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 mb-0">
+            Mes produits
+            {% if app.user.nomBoutique %}<small class="text-muted fs-6">- {{ app.user.nomBoutique }}</small>{% endif %}
+        </h1>
+        <a href="{{ path('app_vendeur_produit_new') }}" class="btn btn-dark">Ajouter un produit</a>
+    </div>
+
+    {% if produits is empty %}
+        <div class="alert alert-info">Vous n'avez pas encore de produit. Ajoutez le premier !</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table align-middle bg-white">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Produit</th>
+                        <th>Catégorie</th>
+                        <th class="text-end">Prix</th>
+                        <th>Statut</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produit in produits %}
+                        <tr>
+                            <td style="width: 64px;">
+                                {% if produit.image %}
+                                    <img src="{{ asset('uploads/produits/' ~ produit.image) }}" alt="" width="48" height="48" class="rounded object-fit-cover">
+                                {% endif %}
+                            </td>
+                            <td>{{ produit.nom }}</td>
+                            <td>{{ produit.categorie.nom }}</td>
+                            <td class="text-end">{{ produit.prix|number_format(2, ',', ' ') }} €</td>
+                            <td><span class="badge text-bg-{{ couleurs[produit.statut] ?? 'secondary' }}">{{ produit.statutLibelle }}</span></td>
+                            <td class="text-end">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="{{ path('app_vendeur_produit_edit', {id: produit.id}) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                                    <form method="post" action="{{ path('app_vendeur_produit_delete', {id: produit.id}) }}" data-turbo-confirm="Supprimer ce produit ?">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('supprimer_produit_' ~ produit.id) }}">
+                                        <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Entity\Utilisateur;
 use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,6 +40,15 @@ class ProduitController extends AbstractController
     #[Route('/produits/{id}', name: 'app_produit_show', requirements: ['id' => '\d+'])]
     public function show(Produit $produit): Response
     {
+        // Un produit non publié n'est visible que par un admin ou par son vendeur.
+        $utilisateur = $this->getUser();
+        $estProprietaire = $utilisateur instanceof Utilisateur
+            && $produit->getVendeur()?->getId() === $utilisateur->getId();
+
+        if (!$produit->isPublie() && !$this->isGranted('ROLE_ADMIN') && !$estProprietaire) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
         ]);
