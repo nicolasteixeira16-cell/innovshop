@@ -61,20 +61,50 @@ class ProduitRepository extends ServiceEntityRepository
             ->setParameter('publie', Produit::STATUT_PUBLIE)
             ->andWhere('p.enVedette = :vedette')
             ->setParameter('vedette', true)
+            ->andWhere('c.slug != :proto')
+            ->setParameter('proto', 'prototypes')
             ->orderBy('p.dateCreation', 'DESC')
             ->setMaxResults($limite)
             ->getQuery()
             ->getResult();
     }
 
-    /** @return Produit[] */
-    public function findNouveautes(int $limite = 4): array
+    /**
+     * @param int[] $exclureIds identifiants de produits à ne pas renvoyer
+     *
+     * @return Produit[]
+     */
+    public function findNouveautes(int $limite = 4, array $exclureIds = []): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->join('p.categorie', 'c')
+            ->andWhere('p.statut = :publie')
+            ->setParameter('publie', Produit::STATUT_PUBLIE)
+            ->andWhere('c.slug != :proto')
+            ->setParameter('proto', 'prototypes');
+
+        if ([] !== $exclureIds) {
+            $qb->andWhere('p.id NOT IN (:ids)')
+               ->setParameter('ids', $exclureIds);
+        }
+
+        return $qb
+            ->orderBy('p.dateCreation', 'DESC')
+            ->setMaxResults($limite)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPrototypes(int $limite = 4): array
     {
         return $this->createQueryBuilder('p')
             ->addSelect('c')
             ->join('p.categorie', 'c')
             ->andWhere('p.statut = :publie')
             ->setParameter('publie', Produit::STATUT_PUBLIE)
+            ->andWhere('c.slug = :proto')
+            ->setParameter('proto', 'prototypes')
             ->orderBy('p.dateCreation', 'DESC')
             ->setMaxResults($limite)
             ->getQuery()

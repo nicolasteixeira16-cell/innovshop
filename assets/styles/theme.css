@@ -1,0 +1,96 @@
+/* InnovShop – thème (palette, typographie, composants). Chargé APRÈS Bootstrap. */
+:root {
+    --ivs-ink: #0f1b2d;        /* bleu nuit : navbar, titres, pied de page */
+    --ivs-teal: #14b8a6;       /* couleur principale : liens, boutons */
+    --ivs-teal-dark: #0d9488;
+    --ivs-orange: #ff8a3d;     /* accent « prototype » : badges, appels à l'action */
+    --ivs-bg: #f4f7fa;         /* fond de page */
+
+    --ivs-font-title: 'Space Grotesk', system-ui, sans-serif;
+    --ivs-font-text: 'Inter', system-ui, sans-serif;
+
+    /* On redéfinit les variables Bootstrap pour que tout le site suive */
+    --bs-primary: var(--ivs-teal);
+    --bs-primary-rgb: 20, 184, 166;
+    --bs-link-color: var(--ivs-teal-dark);
+    --bs-link-hover-color: var(--ivs-ink);
+    --bs-body-font-family: var(--ivs-font-text);
+    --bs-body-bg: var(--ivs-bg);
+    --bs-body-color: #1e293b;
+    --bs-border-radius: .6rem;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .btn { font-family: var(--ivs-font-title); }
+h1, h2, h3 { color: var(--ivs-ink); letter-spacing: -.02em; }
+
+/* Boutons */
+.btn-primary {
+    --bs-btn-bg: var(--ivs-teal);
+    --bs-btn-border-color: var(--ivs-teal);
+    --bs-btn-hover-bg: var(--ivs-teal-dark);
+    --bs-btn-hover-border-color: var(--ivs-teal-dark);
+    --bs-btn-active-bg: var(--ivs-teal-dark);
+    --bs-btn-active-border-color: var(--ivs-teal-dark);
+    --bs-btn-color: #fff;
+    --bs-btn-hover-color: #fff;
+    font-weight: 600;
+}
+.btn-outline-primary {
+    --bs-btn-color: var(--ivs-teal-dark);
+    --bs-btn-border-color: var(--ivs-teal);
+    --bs-btn-hover-bg: var(--ivs-teal);
+    --bs-btn-hover-border-color: var(--ivs-teal);
+    --bs-btn-hover-color: #fff;
+}
+.btn-accent {
+    background: var(--ivs-orange);
+    border-color: var(--ivs-orange);
+    color: var(--ivs-ink);
+    font-weight: 700;
+}
+.btn-accent:hover { background: #ff7a20; border-color: #ff7a20; color: var(--ivs-ink); }
+
+/* Barre de navigation */
+.navbar.bg-dark { background-color: var(--ivs-ink) !important; }
+.navbar .navbar-brand { font-weight: 700; letter-spacing: -.02em; }
+.navbar .navbar-brand img { height: 32px; width: 32px; margin-right: .5rem; }
+.navbar .nav-link { transition: color .15s; }
+.navbar .nav-link:hover { color: var(--ivs-teal) !important; }
+
+/* Bandeau d'accueil (compact) */
+.hero {
+    color: #fff;
+    background: var(--ivs-ink) url('../images/hero.svg') right center / cover no-repeat;
+    border-radius: .9rem;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+}
+.hero h1 { color: #fff; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: .25rem; }
+.hero p { color: #cbd5e1; margin-bottom: 1rem; max-width: 50ch; }
+
+/* Pastille « Prototype » sur les cartes */
+.badge-prototype {
+    background: var(--ivs-orange);
+    color: var(--ivs-ink);
+    font-weight: 700;
+}
+
+/* Cartes (produits, formulaires) */
+.card {
+    border: 1px solid #e2e8f0;
+    border-radius: .9rem;
+    box-shadow: 0 1px 2px rgba(15, 27, 45, .05);
+    overflow: hidden;
+}
+.card-produit { transition: transform .2s ease, box-shadow .2s ease; }
+.card-produit:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(15, 27, 45, .12);
+}
+.card-produit .card-img-top { transition: transform .35s ease; }
+.card-produit:hover .card-img-top { transform: scale(1.04); }
+.card-produit .card-title { font-family: var(--ivs-font-title); color: var(--ivs-ink); }
+.card-produit .prix { color: var(--ivs-teal-dark); font-weight: 700; font-family: var(--ivs-font-title); }
+
+/* Pied de page */
+footer { background: var(--ivs-ink); color: #cbd5e1; }

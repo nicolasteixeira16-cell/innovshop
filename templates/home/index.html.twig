@@ -3,10 +3,10 @@
 {% block title %}InnovShop - Accueil{% endblock %}
 
 {% block body %}
-    <div class="p-5 mb-5 bg-dark text-white rounded-3">
-        <h1 class="display-5 fw-bold">Bienvenue chez InnovShop</h1>
-        <p class="fs-5">Découvrez nos produits innovants, sélectionnés pour vous.</p>
-        <a href="{{ path('app_produit_index') }}" class="btn btn-light btn-lg">Voir le catalogue</a>
+    <div class="hero">
+        <h1>Bienvenue chez InnovShop</h1>
+        <p>Découvrez nos produits innovants, sélectionnés pour vous.</p>
+        <a href="{{ path('app_produit_index') }}" class="btn btn-accent">Voir le catalogue</a>
     </div>
 
     <section class="mb-5">
@@ -21,6 +21,21 @@
             </div>
         {% endif %}
     </section>
+    
+    {% if prototypes is not empty %}
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-baseline mb-1">
+                <h2 class="mb-0">Prototypes à tester</h2>
+                <a href="{{ path('app_testeur') }}" class="small">Devenir testeur</a>
+            </div>
+            <p class="text-muted">Des produits encore en phase de prototype, à découvrir en avant-première.</p>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                {% for produit in prototypes %}
+                    {% include 'produit/_card.html.twig' %}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
     <section>
         <h2 class="mb-3">Nouveautés</h2>

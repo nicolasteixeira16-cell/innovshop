@@ -26,8 +26,14 @@ class CandidatureTesteurFormType extends AbstractType
                 'label_attr' => ['class' => 'form-label'],
                 'attr' => ['class' => 'form-control', 'maxlength' => 180],
             ])
+            ->add('typesProduits', TextType::class, [
+                'label' => 'Quels types de produits aimeriez-vous tester ?',
+                'help' => 'Ex. : objets connectés, maison, mobilité, bien-être…',
+                'label_attr' => ['class' => 'form-label'],
+                'attr' => ['class' => 'form-control', 'maxlength' => 255],
+            ])
             ->add('motivation', TextareaType::class, [
-                'label' => 'Pourquoi souhaitez-vous tester InnovShop ?',
+                'label' => 'Pourquoi souhaitez-vous tester nos prototypes ?',
                 'label_attr' => ['class' => 'form-label'],
                 'attr' => ['class' => 'form-control', 'rows' => 5, 'maxlength' => 2000],
             ])

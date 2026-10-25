@@ -68,7 +68,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
                         <button class="btn btn-outline-secondary">Vider le panier</button>
                     </form>
-                    <a href="{{ path('app_checkout_recap') }}" class="btn btn-dark">Passer la commande</a>
+                    <a href="{{ path('app_checkout_recap') }}" class="btn btn-primary">Passer la commande</a>
                 </div>
             {% endif %}
         </div>

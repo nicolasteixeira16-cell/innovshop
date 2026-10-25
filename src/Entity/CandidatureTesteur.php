@@ -30,10 +30,16 @@ class CandidatureTesteur
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Dites-nous pourquoi vous souhaitez tester InnovShop.')]
+    #[Assert\NotBlank(message: 'Dites-nous pourquoi vous souhaitez tester nos prototypes.')]
     #[Assert\Length(min: 20, max: 2000, minMessage: 'Merci de détailler un peu (20 caractères minimum).')]
     #[Assert\Regex(pattern: '/[<>]/', match: false, message: 'Les caractères < et > ne sont pas autorisés.')]
     private ?string $motivation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'Indiquez les types de produits que vous aimeriez tester.')]
+    #[Assert\Length(max: 255, maxMessage: '255 caractères maximum.')]
+    #[Assert\Regex(pattern: '/[<>]/', match: false, message: 'Les caractères < et > ne sont pas autorisés.')]
+    private ?string $typesProduits = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $dateCreation = null;
@@ -80,6 +86,18 @@ class CandidatureTesteur
     public function setMotivation(string $motivation): static
     {
         $this->motivation = $motivation;
+
+        return $this;
+    }
+
+    public function getTypesProduits(): ?string
+    {
+        return $this->typesProduits;
+    }
+
+    public function setTypesProduits(?string $typesProduits): static
+    {
+        $this->typesProduits = $typesProduits;
 
         return $this;
     }
