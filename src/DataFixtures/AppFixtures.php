@@ -46,7 +46,8 @@ class AppFixtures extends Fixture
         $client = $this->creerUtilisateur('client@innovshop.local', 'Camille', 'Client', []);
         $vendeur = $this->creerUtilisateur('vendeur@innovshop.local', 'Victor', 'Vendeur', ['ROLE_VENDEUR']);
         $vendeur->setNomBoutique('Atelier Proto');
-        foreach ([$admin, $client, $vendeur] as $utilisateur) {
+        $testeur = $this->creerUtilisateur('testeur@innovshop.local', 'Théo', 'Testeur', ['ROLE_TESTEUR']);
+        foreach ([$admin, $client, $vendeur, $testeur] as $utilisateur) {
             $manager->persist($utilisateur);
         }
 

@@ -12,8 +12,10 @@
     /* On redéfinit les variables Bootstrap pour que tout le site suive */
     --bs-primary: var(--ivs-teal);
     --bs-primary-rgb: 20, 184, 166;
-    --bs-link-color: var(--ivs-teal-dark);
-    --bs-link-hover-color: var(--ivs-ink);
+    --bs-link-color: #0d9488;
+    --bs-link-color-rgb: 13, 148, 136;
+    --bs-link-hover-color: #0f1b2d;
+    --bs-link-hover-color-rgb: 15, 27, 45;
     --bs-body-font-family: var(--ivs-font-text);
     --bs-body-bg: var(--ivs-bg);
     --bs-body-color: #1e293b;
@@ -67,6 +69,14 @@ h1, h2, h3 { color: var(--ivs-ink); letter-spacing: -.02em; }
 }
 .hero h1 { color: #fff; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: .25rem; }
 .hero p { color: #cbd5e1; margin-bottom: 1rem; max-width: 50ch; }
+.hero-contenu { display: flex; align-items: center; gap: 3rem; }
+.hero .hero-texte {
+    margin: 0;
+    max-width: 34ch;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--ivs-orange);
+    color: #cbd5e1;
+}
 
 /* Pastille « Prototype » sur les cartes */
 .badge-prototype {

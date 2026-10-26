@@ -6,6 +6,7 @@ use App\Entity\Commande;
 use App\Entity\Utilisateur;
 use App\Form\LivraisonFormType;
 use App\Security\Voter\CommandeVoter;
+use App\Security\Voter\ProduitVoter;
 use App\Service\CartService;
 use App\Service\CommandeMailer;
 use App\Service\OrderService;
@@ -25,7 +26,7 @@ class CheckoutController extends AbstractController
     #[Route('/recapitulatif', name: 'app_checkout_recap', methods: ['GET'])]
     public function recap(CartService $cart): Response
     {
-        if ($redirection = $this->redirigerSiPanierVide($cart)) {
+        if ($redirection = $this->verifierPanier($cart)) {
             return $redirection;
         }
 
@@ -39,7 +40,7 @@ class CheckoutController extends AbstractController
     #[Route('/livraison', name: 'app_checkout_livraison', methods: ['GET', 'POST'])]
     public function livraison(Request $request, CartService $cart): Response
     {
-        if ($redirection = $this->redirigerSiPanierVide($cart)) {
+        if ($redirection = $this->verifierPanier($cart)) {
             return $redirection;
         }
 
@@ -64,7 +65,7 @@ class CheckoutController extends AbstractController
     #[Route('/confirmation', name: 'app_checkout_confirmation', methods: ['GET'])]
     public function confirmation(Request $request, CartService $cart): Response
     {
-        if ($redirection = $this->redirigerSiPanierVide($cart)) {
+        if ($redirection = $this->verifierPanier($cart)) {
             return $redirection;
         }
 
@@ -135,6 +136,27 @@ class CheckoutController extends AbstractController
             $this->addFlash('warning', 'Votre panier est vide.');
 
             return $this->redirectToRoute('app_cart');
+        }
+
+        return null;
+    }
+
+    /** Panier vide, ou prototype réservé aux testeurs : retour au panier avec un message. */
+    private function verifierPanier(CartService $cart): ?Response
+    {
+        if ($redirection = $this->redirigerSiPanierVide($cart)) {
+            return $redirection;
+        }
+
+        foreach ($cart->getItems() as $item) {
+            if (!$this->isGranted(ProduitVoter::COMMANDER, $item['produit'])) {
+                $this->addFlash('warning', sprintf(
+                    '« %s » est un prototype réservé aux testeurs validés. Retirez-le de votre panier pour continuer.',
+                    $item['produit']->getNom(),
+                ));
+
+                return $this->redirectToRoute('app_cart');
+            }
         }
 
         return null;

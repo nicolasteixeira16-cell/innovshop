@@ -63,6 +63,27 @@ abstract class FonctionnelTestCase extends WebTestCase
         return $produit;
     }
 
+    protected function creerPrototype(string $nom): Produit
+    {
+        $categorie = $this->em->getRepository(Categorie::class)->findOneBy(['slug' => 'prototypes']);
+        if (null === $categorie) {
+            $categorie = (new Categorie())->setNom('Prototypes')->setSlug('prototypes');
+            $this->em->persist($categorie);
+        }
+
+        $produit = (new Produit())
+            ->setNom($nom)
+            ->setDescription('Description de test')
+            ->setPrix('10.00')
+            ->setEnVedette(false)
+            ->setStatut(Produit::STATUT_PUBLIE)
+            ->setCategorie($categorie);
+        $this->em->persist($produit);
+        $this->em->flush();
+
+        return $produit;
+    }
+
     protected function creerCommande(Utilisateur $proprietaire, string $statut = Commande::STATUT_EN_ATTENTE): Commande
     {
         $commande = (new Commande())

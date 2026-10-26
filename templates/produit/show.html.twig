@@ -44,10 +44,17 @@
                 </ul>
             {% endif %}
 
+                            {% if is_granted('PRODUIT_COMMANDER', produit) %}
                 <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_add', {id: produit.id}) }}" class="d-inline">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
-                    <button class="btn btn-dark btn-lg">Ajouter au panier</button>
+                    <button class="btn btn-primary btn-lg">Ajouter au panier</button>
                 </form>
+            {% else %}
+                <div class="alert alert-warning">
+                    Ce produit est un prototype : il est réservé aux testeurs validés.
+                    <a href="{{ path('app_testeur') }}" class="alert-link">Devenir testeur</a>
+                </div>
+            {% endif %}
             <a href="{{ path('app_produit_index') }}" class="btn btn-outline-secondary btn-lg">Retour au catalogue</a>
         </div>
     </div>

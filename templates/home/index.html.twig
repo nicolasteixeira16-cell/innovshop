@@ -4,17 +4,25 @@
 
 {% block body %}
     <div class="hero">
-        <h1>Bienvenue chez InnovShop</h1>
-        <p>Découvrez nos produits innovants, sélectionnés pour vous.</p>
-        <a href="{{ path('app_produit_index') }}" class="btn btn-accent">Voir le catalogue</a>
+        <div class="hero-contenu">
+            <div>
+                <h1>Bienvenue chez InnovShop</h1>
+                <p>Découvrez nos produits innovants, sélectionnés pour vous.</p>
+                <a href="{{ path('app_produit_index') }}" class="btn btn-accent">Voir le catalogue</a>
+            </div>
+            <p class="hero-texte d-none d-xl-block">
+                Produits innovants, prototypes à tester en avant-première et vendeurs partenaires : le meilleur de l'innovation, au même endroit.
+            </p>
+        </div>
     </div>
 
     <section class="mb-5">
-        <h2 class="mb-3">À la une</h2>
+        <h2 class="mb-1 text-center">À la une</h2>
+        <p class="text-muted text-center">Notre sélection du moment : les produits que nous avons choisi de mettre en avant.</p>
         {% if produitsEnVedette is empty %}
             <p class="text-muted">Aucun produit à la une pour le moment.</p>
         {% else %}
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 justify-content-center">
                 {% for produit in produitsEnVedette %}
                     {% include 'produit/_card.html.twig' %}
                 {% endfor %}
@@ -23,13 +31,9 @@
     </section>
     
     {% if prototypes is not empty %}
-        <section class="mb-5">
-            <div class="d-flex justify-content-between align-items-baseline mb-1">
-                <h2 class="mb-0">Prototypes à tester</h2>
-                <a href="{{ path('app_testeur') }}" class="small">Devenir testeur</a>
-            </div>
-            <p class="text-muted">Des produits encore en phase de prototype, à découvrir en avant-première.</p>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            <h2 class="mb-1 text-center">Prototypes à tester</h2>
+            <p class="text-muted text-center">Des produits encore en phase de prototype, à découvrir en avant-première.</p>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 justify-content-center">
                 {% for produit in prototypes %}
                     {% include 'produit/_card.html.twig' %}
                 {% endfor %}
@@ -38,11 +42,12 @@
     {% endif %}
 
     <section>
-        <h2 class="mb-3">Nouveautés</h2>
+        <h2 class="mb-1 text-center">Nouveautés</h2>
+        <p class="text-muted text-center">Les derniers produits arrivés dans la boutique.</p>
         {% if nouveautes is empty %}
             <p class="text-muted">Aucun produit pour le moment.</p>
         {% else %}
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 justify-content-center">
                 {% for produit in nouveautes %}
                     {% include 'produit/_card.html.twig' %}
                 {% endfor %}

@@ -59,6 +59,7 @@ class UtilisateurCrudController extends AbstractCrudController
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
                     'Vendeur' => 'ROLE_VENDEUR',
+                    'Testeur' => 'ROLE_TESTEUR',
                 ])
                 ->allowMultipleChoices()
                 ->renderExpanded()

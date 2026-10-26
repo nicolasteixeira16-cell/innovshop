@@ -198,6 +198,11 @@ class Produit
         return self::STATUT_PUBLIE === $this->statut;
     }
 
+    public function isPrototype(): bool
+    {
+        return 'prototypes' === $this->categorie?->getSlug();
+    }
+
     /**
      * @return Collection<int, OptionProduit>
      */

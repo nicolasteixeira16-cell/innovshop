@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Security\Voter\ProduitVoter;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,9 @@ class CartController extends AbstractController
         if (!$produit->isPublie()) {
             throw $this->createNotFoundException();
         }
+
+        $this->denyAccessUnlessGranted(ProduitVoter::COMMANDER, $produit, 'Ce prototype est réservé aux testeurs validés.');
+
         $cart->add($produit->getId());
 
         return $this->repondre($request, $cart, sprintf('« %s » a été ajouté au panier.', $produit->getNom()));

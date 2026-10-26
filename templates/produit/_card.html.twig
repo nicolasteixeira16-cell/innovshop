@@ -22,10 +22,15 @@
                 <strong class="prix d-block mb-2">{{ produit.prix|number_format(2, ',', ' ') }} €</strong>
                 <div class="d-flex gap-2">
                     <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-outline-primary flex-fill">Voir</a>
-                    <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_add', {id: produit.id}) }}" class="flex-fill d-grid">
-                        <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
-                        <button class="btn btn-sm btn-primary">Ajouter</button>
-                    </form>
+                                        {% if is_granted('PRODUIT_COMMANDER', produit) %}
+                        <form data-cart-form data-turbo="false" method="post" action="{{ path('app_cart_add', {id: produit.id}) }}" class="flex-fill d-grid">
+                            <input type="hidden" name="_token" value="{{ csrf_token('cart') }}">
+                            <button class="btn btn-sm btn-primary">Ajouter</button>
+                        </form>
+                    {% else %}
+                        <a href="{{ path('app_testeur') }}" class="btn btn-sm btn-accent flex-fill"
+                           title="Ce prototype est réservé aux testeurs validés">Devenir testeur</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

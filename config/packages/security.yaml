@@ -16,6 +16,7 @@ security:
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
         ROLE_VENDEUR: ROLE_USER
+        ROLE_TESTEUR: ROLE_USER
 
     firewalls:
         dev:

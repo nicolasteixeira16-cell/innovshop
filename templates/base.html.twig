@@ -30,7 +30,7 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item"><a class="nav-link" href="{{ path('app_home') }}">Accueil</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('app_produit_index') }}">Catalogue</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_testeur') }}">Devenez testeurs</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="{{ path('app_testeur') }}">Devenir testeur</a></li>
                         {% if is_granted('ROLE_VENDEUR') %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_vendeur_produit_index') }}">Espace vendeur</a></li>
                         {% else %}
