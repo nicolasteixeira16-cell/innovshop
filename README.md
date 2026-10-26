@@ -230,7 +230,7 @@ Modèle physique de données
 - [Ouvrir le diagramme dans draw.io (lecture)](https://viewer.diagrams.net/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnicolasteixeira16-cell%2Finnovshop%2Fmain%2Fdocs%2Fuml%2FInnovShop_class_diagram.drawio)
 - [Fichier source .drawio](docs/uml/InnovShop_class_diagram.drawio)
 
-![Diagramme de classes](docs/uml/01-classes.png)
+![Diagramme de classes](docs/01-classes.png)
 
 ### Autres documents
 Dossier de projet, présentation de soutenance et livret : [dépôt des documents](https://github.com/nicolasteixeira16-cell/Dossier-Professionnel-DWWM)
