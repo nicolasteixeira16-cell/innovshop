@@ -25,7 +25,7 @@ class ProduitVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        /** @var Produit $subject */
+        /* @var Produit $subject */
         if (self::COMMANDER === $attribute) {
             return $this->peutCommander($subject, $token);
         }
