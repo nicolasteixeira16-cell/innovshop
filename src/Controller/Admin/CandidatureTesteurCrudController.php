@@ -40,6 +40,7 @@ class CandidatureTesteurCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnIndex();
         yield TextField::new('nom', 'Nom');
         yield EmailField::new('email', 'E-mail');
+        yield TextField::new('typesProduits', 'Produits à tester');
         yield TextareaField::new('motivation', 'Motivation')->hideOnIndex();
         yield DateTimeField::new('dateCreation', 'Reçue le');
     }
