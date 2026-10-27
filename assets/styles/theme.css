@@ -56,7 +56,7 @@ h1, h2, h3 { color: var(--ivs-ink); letter-spacing: -.02em; }
 .navbar.bg-dark { background-color: var(--ivs-ink) !important; }
 .navbar .navbar-brand { font-weight: 700; letter-spacing: -.02em; }
 .navbar .navbar-brand img { height: 32px; width: 32px; margin-right: .5rem; }
-.navbar .nav-link { transition: color .15s; }
+.navbar .nav-link { transition: color .15s; white-space: nowrap; }
 .navbar .nav-link:hover { color: var(--ivs-teal) !important; }
 
 /* Bandeau d'accueil (compact) */

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commande;
 use App\Entity\Utilisateur;
 use App\Form\LivraisonFormType;
+use App\Form\PaiementFormType;
 use App\Security\Voter\CommandeVoter;
 use App\Security\Voter\ProduitVoter;
 use App\Service\CartService;
@@ -21,6 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CheckoutController extends AbstractController
 {
     private const SESSION_LIVRAISON = 'checkout_livraison';
+    private const SESSION_PAIEMENT = 'checkout_paiement';
 
     // Étape 1 : vérification du panier
     #[Route('/recapitulatif', name: 'app_checkout_recap', methods: ['GET'])]
@@ -53,7 +55,7 @@ class CheckoutController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $session->set(self::SESSION_LIVRAISON, $form->getData());
 
-            return $this->redirectToRoute('app_checkout_confirmation');
+            return $this->redirectToRoute('app_checkout_paiement');
         }
 
         return $this->render('checkout/livraison.html.twig', [
@@ -61,7 +63,41 @@ class CheckoutController extends AbstractController
         ]);
     }
 
-    // Étape 3 : confirmation
+    // Étape 3 : paiement (simulation : seuls le titulaire et les 4 derniers chiffres sont gardés en session)
+    #[Route('/paiement', name: 'app_checkout_paiement', methods: ['GET', 'POST'])]
+    public function paiement(Request $request, CartService $cart): Response
+    {
+        if ($redirection = $this->verifierPanier($cart)) {
+            return $redirection;
+        }
+
+        $session = $request->getSession();
+        if (!$session->get(self::SESSION_LIVRAISON)) {
+            return $this->redirectToRoute('app_checkout_livraison');
+        }
+
+        $form = $this->createForm(PaiementFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $donnees = $form->getData();
+            $chiffres = preg_replace('/\s+/', '', (string) $donnees['numero']);
+
+            $session->set(self::SESSION_PAIEMENT, [
+                'titulaire' => $donnees['titulaire'],
+                'quatreDerniers' => substr($chiffres, -4),
+            ]);
+
+            return $this->redirectToRoute('app_checkout_confirmation');
+        }
+
+        return $this->render('checkout/paiement.html.twig', [
+            'form' => $form,
+            'total' => $cart->getTotal(),
+        ]);
+    }
+
+    // Étape 4 : confirmation
     #[Route('/confirmation', name: 'app_checkout_confirmation', methods: ['GET'])]
     public function confirmation(Request $request, CartService $cart): Response
     {
@@ -74,10 +110,16 @@ class CheckoutController extends AbstractController
             return $this->redirectToRoute('app_checkout_livraison');
         }
 
+        $paiement = $request->getSession()->get(self::SESSION_PAIEMENT);
+        if (!$paiement) {
+            return $this->redirectToRoute('app_checkout_paiement');
+        }
+
         return $this->render('checkout/confirmation.html.twig', [
             'items' => $cart->getItems(),
             'total' => $cart->getTotal(),
             'livraison' => $livraison,
+            'paiement' => $paiement,
         ]);
     }
 
@@ -104,12 +146,16 @@ class CheckoutController extends AbstractController
         if (!$livraison) {
             return $this->redirectToRoute('app_checkout_livraison');
         }
+        if (!$session->get(self::SESSION_PAIEMENT)) {
+            return $this->redirectToRoute('app_checkout_paiement');
+        }
         if (!$utilisateur instanceof Utilisateur) {
             throw $this->createAccessDeniedException();
         }
 
         $commande = $orderService->creerDepuisPanier($utilisateur, $livraison);
         $session->remove(self::SESSION_LIVRAISON);
+        $session->remove(self::SESSION_PAIEMENT);
 
         if ($commandeMailer->envoyerConfirmation($commande)) {
             $this->addFlash('success', 'Un email de confirmation vous a été envoyé.');

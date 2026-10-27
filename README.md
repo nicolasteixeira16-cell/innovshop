@@ -1,6 +1,6 @@
 InnovShop
 
-Site e-commerce de produits innovants, réalisé avec Symfony dans le cadre du challenge final de ma formation. Les visiteurs consultent un catalogue, remplissent un panier et passent commande ; les administrateurs gèrent la boutique ; en plus du cahier des charges, des vendeurs peuvent proposer leurs propres produits (marketplace) et une catégorie « Prototypes » permet de faire tester des produits en avant-première.
+Site e-commerce de produits innovants, réalisé avec Symfony. Les visiteurs consultent un catalogue, remplissent un panier et passent commande ; les administrateurs gèrent la boutique ; des vendeurs peuvent proposer leurs propres produits (marketplace) et une catégorie « Prototypes » permet de faire tester des produits en avant-première.
 
 Site en ligne : https://ntx.alwaysdata.net/innovshop/
 Dépôt GitHub : https://github.com/nicolasteixeira16-cell/innovshop
@@ -28,18 +28,18 @@ Candidature « Devenir testeur » pour essayer des prototypes
 
 Client connecté
 
-Tunnel de commande en 3 étapes (panier, livraison, confirmation)
+Tunnel de commande en 4 étapes (panier, livraison, paiement, confirmation)
 E-mail de confirmation de commande et e-mail à chaque changement de statut
 Historique « Mes commandes » et facture PDF
 Gestion du profil, de l'adresse et du mot de passe
 Demande pour devenir vendeur
 
-Vendeur (au-delà du cahier des charges)
+Vendeur
 
 Espace vendeur : création, modification et suppression de ses propres produits
 Tout produit créé ou modifié passe « en attente de validation »
 
-Testeur (au-delà du cahier des charges)
+Testeur
 
 Candidature « Devenir testeur » ; l'administrateur la valide en attribuant le rôle Testeur
 Les produits de la catégorie « Prototypes » ne peuvent être commandés que par un testeur validé (ou un administrateur)
@@ -221,16 +221,16 @@ Modèle physique de données
 ## Documents du projet
 
 ### Backlog (user stories)
-- [Backlog complet : 29 user stories](docs/backlog/BACKLOG.md)
+- [Backlog complet : 31 user stories](docs/backlog/BACKLOG.md)
 - [Tableau Kanban public (Trello)](https://trello.com/b/840nCSqj/innovshop-backlog)
 
 ![Kanban Trello](docs/backlog/kanban-trello.png)
 
 ### Diagramme de classes
-- [Ouvrir le diagramme dans draw.io (lecture)](https://viewer.diagrams.net/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnicolasteixeira16-cell%2Finnovshop%2Fmain%2Fdocs%2Fuml%2FInnovShop_class_diagram.drawio)
+- [Voir le diagramme (image)](docs/uml/01-classes.png)
 - [Fichier source .drawio](docs/uml/InnovShop_class_diagram.drawio)
 
-![Diagramme de classes](docs/01-classes.png)
+![Diagramme de classes](docs/uml/01-classes.png)
 
 ### Autres documents
 Dossier de projet, présentation de soutenance et livret : [dépôt des documents](https://github.com/nicolasteixeira16-cell/Dossier-Professionnel-DWWM)

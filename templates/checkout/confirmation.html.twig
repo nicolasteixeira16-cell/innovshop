@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1 class="mb-4">Passer la commande</h1>
-    {% include 'checkout/_steps.html.twig' with {etape: 3} %}
+    {% include 'checkout/_steps.html.twig' with {etape: 4} %}
 
     <h2 class="h5 mb-3">Votre commande</h2>
     {% include 'checkout/_resume.html.twig' %}
@@ -17,11 +17,17 @@
         {{ livraison.pays }}
     </address>
 
+    <h2 class="h5 mb-3">Paiement</h2>
+    <p class="bg-white border rounded p-3 mb-4">
+        Carte bancaire se terminant par <strong>{{ paiement.quatreDerniers }}</strong>
+        ({{ paiement.titulaire }}) – montant à régler : <strong>{{ total|number_format(2, ',', ' ') }} €</strong>
+    </p>
+
     <div class="d-flex justify-content-between">
-        <a href="{{ path('app_checkout_livraison') }}" class="btn btn-outline-secondary">Modifier l'adresse</a>
+        <a href="{{ path('app_checkout_paiement') }}" class="btn btn-outline-secondary">Modifier le paiement</a>
         <form method="post" action="{{ path('app_checkout_valider') }}">
             <input type="hidden" name="_token" value="{{ csrf_token('checkout') }}">
-            <button type="submit" class="btn btn-success btn-lg">Confirmer la commande</button>
+            <button type="submit" class="btn btn-success btn-lg">Payer et confirmer la commande</button>
         </form>
     </div>
 {% endblock %}
