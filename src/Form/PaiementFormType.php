@@ -35,7 +35,7 @@ class PaiementFormType extends AbstractType
                 'attr' => ['autocomplete' => 'cc-number', 'inputmode' => 'numeric', 'placeholder' => '4242 4242 4242 4242'],
                 'constraints' => [
                     new NotBlank(message: 'Veuillez saisir le numéro de carte.'),
-                    new Regex(pattern: '/^[0-9 ]{13,23}$/', message: 'Le numéro de carte doit contenir uniquement des chiffres.'),
+                    new Regex(pattern: '/^[0-9 ]+$/', message: 'Le numéro de carte doit contenir uniquement des chiffres (et éventuellement des espaces).'),
                 ],
             ])
             ->add('expiration', TextType::class, [
@@ -65,9 +65,11 @@ class PaiementFormType extends AbstractType
         $donnees = $event->getData();
 
         $chiffres = preg_replace('/\s+/', '', (string) ($donnees['numero'] ?? ''));
-        if ($form->get('numero')->isValid() && '' !== $chiffres) {
-            if (!ctype_digit($chiffres) || strlen($chiffres) < 13 || strlen($chiffres) > 19 || !$this->luhnValide($chiffres)) {
-                $form->get('numero')->addError(new FormError('Numéro de carte invalide.'));
+                if ($form->get('numero')->isValid() && '' !== $chiffres) {
+            if (strlen($chiffres) < 13 || strlen($chiffres) > 19) {
+                $form->get('numero')->addError(new FormError('Le numéro de carte doit contenir entre 13 et 19 chiffres (vous en avez saisi '.strlen($chiffres).').'));
+            } elseif (!$this->luhnValide($chiffres)) {
+                $form->get('numero')->addError(new FormError('Numéro de carte invalide : vérifiez les chiffres saisis.'));
             }
         }
 
