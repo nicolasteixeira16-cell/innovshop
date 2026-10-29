@@ -161,8 +161,8 @@ Vérification du style de code :
 bash
 symfony php vendor/bin/php-cs-fixer fix --dry-run --diff
 Sécurité
-Authentification par formulaire, mots de passe hachés (algorithme automatique de Symfony)
-Rôles ROLE_USER, ROLE_VENDEUR et ROLE_ADMIN avec hiérarchie, et règles d'accès (access_control) par zone du site
+Authentification par formulaire, mots de passe hachés avec bcrypt (configuré dans security.yaml)
+Rôles ROLE_USER, ROLE_VENDEUR, ROLE_TESTEUR et ROLE_ADMIN avec hiérarchie, et règles d'accès (access_control) par zone du site
 Autorisations fines avec des Voters : un client ne voit que ses commandes, un vendeur ne modifie que ses produits
 Prototypes réservés aux testeurs validés : règle centralisée dans un Voter (PRODUIT_COMMANDER), appliquée à l'affichage, à l'ajout au panier et à la validation de la commande
 Jeton CSRF sur tous les formulaires et actions sensibles (panier, commande, connexion)
